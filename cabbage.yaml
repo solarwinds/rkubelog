@@ -1,0 +1,49 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: staging
+  name: cabbage-reader
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods", "pods/log"]
+  verbs: ["get", "watch", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cabbage-reader-pod
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cabbage-reader
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: staging
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "cabbage"
+  namespace: "staging"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: "cabbage"
+        kail.ignore: true
+    spec:
+      containers:
+      - image: quay.io/solarwinds/cabbage:latest
+        imagePullPolicy: Always
+        name: "cabbage"
+        args: ["swing-staging"]
+        env:
+        - name: PT_HOST
+          value: "logs.papertrailapp.com"
+        - name: PT_PORT
+          value: "38138"
+      restartPolicy: Never
