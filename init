@@ -3,7 +3,19 @@
 K_SYS="$1"
 echo "System name: $K_SYS"
 
+if [ -z "$PT_HOST" ]; then
+  echo "\$PT_HOST is empty"
+  exit 1
+fi
+
+if [ -z "$PT_PORT" ]; then
+  echo "\$PT_PORT is empty"
+  exit 1
+fi
+
 rm -f /"$K_SYS"
 touch /"$K_SYS"
 /remote_syslog -p "$PT_PORT" -d "$PT_HOST" --hostname "$K_SYS" --pid-file=/remote_syslog.pid /"$K_SYS"
+
+# shellcheck disable=SC2094 
 /kail --log-file /"$K_SYS" --current-ns > /"$K_SYS" 2>&1
