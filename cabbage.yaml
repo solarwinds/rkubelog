@@ -1,5 +1,5 @@
-kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
 metadata:
   namespace: staging
   name: cabbage-reader
@@ -26,24 +26,23 @@ subjects:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: "cabbage"
+  name: "cabbage-staging"
   namespace: "staging"
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: "cabbage"
-        kail.ignore: true
+        app: "cabbage-staging"
+        kail.ignore: "true"
     spec:
       containers:
-      - image: quay.io/solarwinds/cabbage:latest
+      - image: quay.io/solarwinds/cabbage:r8
         imagePullPolicy: Always
-        name: "cabbage"
+        name: "cabbage-staging"
         args: ["swing-staging"]
         env:
         - name: PT_HOST
           value: "logs.papertrailapp.com"
         - name: PT_PORT
           value: "38138"
-      restartPolicy: Never

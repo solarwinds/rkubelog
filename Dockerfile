@@ -1,8 +1,9 @@
-FROM busybox:glibc
+FROM alpine:latest
 
 ADD ./kail /kail
-ADD ./remote_syslog /remote_syslog
 ADD ./init /init
+
+RUN apk add -U util-linux
 RUN chmod +x /init
 
 ENTRYPOINT ["./init"]

@@ -13,9 +13,4 @@ if [ -z "$PT_PORT" ]; then
   exit 1
 fi
 
-rm -f /"$K_SYS"
-touch /"$K_SYS"
-/remote_syslog -p "$PT_PORT" -d "$PT_HOST" --hostname "$K_SYS" --pid-file=/remote_syslog.pid /"$K_SYS"
-
-# shellcheck disable=SC2094 
-/kail --log-file /"$K_SYS" --current-ns > /"$K_SYS" 2>&1
+/kail --current-ns 2>&1 | logger -n "$PT_HOST" -P "$PT_PORT" -t "$K_SYS" 
