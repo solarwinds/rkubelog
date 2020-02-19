@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+- ./cabbage
+
+namespace: staging
+
+patchesJSON6902:
+- target:
+    group: extensions
+    version: v1beta1
+    kind: Deployment
+    name: cabbage
+  path: logging-config-patch.yaml

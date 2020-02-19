@@ -1,0 +1,13 @@
+# This is the system tag in the syslog msgs sent to PT
+- op: add
+  path: /spec/template/spec/containers/0/args
+  value: ["staging"]
+
+# Put your PT syslog config here
+- op: add
+  path: /spec/template/spec/containers/0/env
+  value:
+    - name: PT_HOST
+      value: logs.papertrailapp.com
+    - name: PT_PORT
+      value: 38138

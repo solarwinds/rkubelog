@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "cabbage"
+  namespace: "default"
+
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        kail.ignore: "true"
+    spec:
+      containers:
+      - image: quay.io/solarwinds/cabbage:r8
+        imagePullPolicy: Always
+        name: "cabbage"
