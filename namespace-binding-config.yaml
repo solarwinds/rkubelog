@@ -1,0 +1,7 @@
+# Change this if you've changed the namespace in kustomize
+- op: replace
+  path: /subjects/0
+  value: 
+    kind: ServiceAccount
+    name: default
+    namespace: kube-system

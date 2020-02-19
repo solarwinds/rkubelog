@@ -13,3 +13,10 @@ patchesJSON6902:
     kind: Deployment
     name: cabbage
   path: logging-config-patch.yaml
+
+- target:
+    group: rbac.authorization.k8s.io
+    version: v1
+    kind: ClusterRoleBinding
+    name: cabbage-reader-binding
+  path: namespace-binding-config.yaml
