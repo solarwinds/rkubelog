@@ -1,7 +1,7 @@
 # This is the system tag in the syslog msgs sent to PT
 - op: add
   path: /spec/template/spec/containers/0/args
-  value: ["staging"]
+  value: ["swing"]
 
 # Put your PT syslog config here
 - op: add
@@ -10,4 +10,4 @@
     - name: PT_HOST
       value: logs.papertrailapp.com
     - name: PT_PORT
-      value: 38138
+      value: "38138"

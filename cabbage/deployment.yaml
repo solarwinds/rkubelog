@@ -12,6 +12,6 @@ spec:
         kail.ignore: "true"
     spec:
       containers:
-      - image: quay.io/solarwinds/cabbage:r8
+      - image: quay.io/solarwinds/cabbage:r9
         imagePullPolicy: Always
         name: "cabbage"

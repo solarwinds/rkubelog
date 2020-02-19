@@ -6,10 +6,9 @@ Cabbage is the easiest way to get logs out of your k8s cluster and into any sysl
 
 > :warning: You need a pull secret for quay.io/solarwinds in your cluster! If you don't have access to quay, build the image yourself and push it to your registry.
 
-You need to deploy one cabbage per namespace. There are only a few options you need to set before applying the deployments. The default kustomization and patch in the repo root provide an example config for one of our clusters. Please change those values as follows:
+By default, cabbage runs in `kube-systems` and will observe all logs from all pods in all namespaces except from itself or any other service in `kube-system`.
 
-1. In `kustomization.yaml` set the target namespace
-2. In `logging-config-patch.yaml` follow the comments to setup the connection to the syslog sink (Papertrail in this example) and set a system tag for the syslog messages.
+In `logging-config-patch.yaml` follow the comments to setup the connection to the syslog sink (Papertrail in this example) and set a system tag for the syslog messages.
 
 That's it. Preview with `kubectl apply -k . --dry-run -o yaml` and remove `--dry-run` to apply.
 
