@@ -4,6 +4,8 @@ Cabbage is the easiest way to get logs out of your k8s cluster and into any sysl
 
 ## Usage
 
+> :warn: You need a pull secret for quay.io/solarwinds in your cluster! If you don't have access to quay, build the image yourself and push it to your registry.
+
 You need to deploy one cabbage per namespace. There are only a few options you need to set before applying the deployments. The default kustomization and patch in the repo root provide an example config for one of our clusters. Please change those values as follows:
 
 1. In `kustomization.yaml` set the target namespace
