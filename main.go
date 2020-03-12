@@ -343,9 +343,23 @@ func createController(
 
 func streamLogs(controller kail.Controller, logShippers []logshipper.LogShipper) {
 	writer := kail.NewWriter(os.Stdout)
-	shipper := make(chan kail.Event, 1000)
-	go func() {
-		for ev := range shipper {
+	// shipper := make(chan kail.Event, 1000)
+	// go func() {
+	// 	for ev := range shipper {
+	// 		for _, l := range logShippers {
+	// 			if l != nil {
+	// 				if err := l.Log(ev); err != nil {
+	// 					logrus.Error(err)
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }()
+	for {
+		select {
+		case ev := <-controller.Events():
+			_ = writer.Print(ev)
+			// shipper <- ev
 			for _, l := range logShippers {
 				if l != nil {
 					if err := l.Log(ev); err != nil {
@@ -353,15 +367,8 @@ func streamLogs(controller kail.Controller, logShippers []logshipper.LogShipper)
 					}
 				}
 			}
-		}
-	}()
-	for {
-		select {
-		case ev := <-controller.Events():
-			_ = writer.Print(ev)
-			shipper <- ev
 		case <-controller.Done():
-			close(shipper)
+			// close(shipper)
 			return
 		}
 	}

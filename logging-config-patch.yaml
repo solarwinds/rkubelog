@@ -3,7 +3,7 @@
   path: /spec/template/spec/containers/0/args
   value: ["swing"]
 
-# Put your PT syslog config here
+# Put your Papertrail & Loggly config here
 - op: add
   path: /spec/template/spec/containers/0/env
   value:
