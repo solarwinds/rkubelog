@@ -7,8 +7,24 @@
 - op: add
   path: /spec/template/spec/containers/0/env
   value:
-    - name: PT_HOST
-      value: logs.papertrailapp.com
-    - name: PT_PORT
-      value: "38138"
+    - name: PAPERTRAIL_PROTOCOL
+      valueFrom: 
+        secretKeyRef:
+          name: logging-secret
+          key: PAPERTRAIL_PROTOCOL
+    - name: PAPERTRAIL_HOST
+      valueFrom: 
+        secretKeyRef:
+          name: logging-secret
+          key: PAPERTRAIL_HOST
+    - name: PAPERTRAIL_PORT
+      valueFrom: 
+        secretKeyRef:
+          name: logging-secret
+          key: PAPERTRAIL_PORT
+    - name: LOGGLY_TOKEN
+      valueFrom: 
+        secretKeyRef:
+          name: logging-secret
+          key: LOGGLY_TOKEN
 
