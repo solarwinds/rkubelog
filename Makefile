@@ -28,4 +28,4 @@ build:
 	go build -o bin/cabbage
 
 docker:
-	docker build -t quay.io/solarwinds/cabbage .
+	DOCKER_BUILDKIT=1 docker build -t quay.io/solarwinds/cabbage .

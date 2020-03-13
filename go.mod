@@ -9,9 +9,8 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/segmentio/go-loggly v0.5.0
 	github.com/sirupsen/logrus v1.4.2
-	github.com/solarwinds/papertrail-go v0.0.0-20200310224907-b58348384b25
+	github.com/solarwinds/papertrail-go v0.0.0-20200313191443-0168cb69bd99
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
-	k8s.io/api v0.0.0-20190515023547-db5a9d1c40eb
 	k8s.io/apimachinery v0.0.0-20190515023456-b74e4c97951f
 	k8s.io/client-go v0.0.0-20190514184034-dd7f3ad83f18
 )
