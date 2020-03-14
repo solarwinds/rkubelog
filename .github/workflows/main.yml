@@ -22,7 +22,9 @@ jobs:
       uses: actions/setup-go@v1
       with:
         go-version: ${{ secrets.GO_VERSION }}
-    - run: make all_checks
+    - run: |
+        make setup-tools
+        make all_checks
   build:
     name: build check
     runs-on: ubuntu-latest
