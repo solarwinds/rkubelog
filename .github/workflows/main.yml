@@ -23,7 +23,7 @@ jobs:
       with:
         go-version: ${{ secrets.GO_VERSION }}
     - run: |
-        export GOPATH=/go
+        export GOPATH="/home/runner/go"
         make setup-tools
         make all_checks
   build:
