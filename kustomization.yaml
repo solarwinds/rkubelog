@@ -6,10 +6,22 @@ bases:
 
 namespace: kube-system
 
+secretGenerator:
+- name: logging-secret
+  literals:
+  - PAPERTRAIL_PROTOCOL=tcp
+  - PAPERTRAIL_HOST=logsX.papertrailapp.com
+  - PAPERTRAIL_PORT=XXXXX
+  - LOGGLY_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  type: Opaque
+    
+generatorOptions:
+  disableNameSuffixHash: true
+
 patchesJSON6902:
 - target:
-    group: extensions
-    version: v1beta1
+    group: apps
+    version: v1
     kind: Deployment
     name: cabbage
   path: logging-config-patch.yaml
