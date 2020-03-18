@@ -1,0 +1,20 @@
+name: Build Release Docker Image
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: quay.io/solarwinds/cabbage
+          workdir: .
+          username: turbo
+          password: ${{ secrets.QUAY_PASSWORD }}
+          registry: quay.io
+          tag_names: true
