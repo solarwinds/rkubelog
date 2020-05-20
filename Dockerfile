@@ -1,15 +1,15 @@
-FROM golang:1.14 as main
-RUN adduser --disabled-login appuser
+FROM golang:1.14.3-alpine as main
+RUN apk update && apk add --no-cache git ca-certificates wget && update-ca-certificates
+RUN wget -O /etc/ssl/certs/papertrail-bundle.pem https://papertrailapp.com/tools/papertrail-bundle.pem
 WORKDIR /github.com/solarwinds/cabbage
 ADD . .
-RUN go build -ldflags="-w -s" -a -o /cabbage .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags='-w -s -extldflags "-static"' -a -o /cabbage .
 
 FROM alpine
-RUN apk --update add ca-certificates
-RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
+COPY --from=main /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=main /etc/ssl/certs/papertrail-bundle.pem /etc/ssl/certs/
 COPY --from=main /cabbage /app/cabbage
-COPY --from=main /etc/passwd /etc/passwd
 RUN chmod -R 777 /app
-USER appuser
+USER 1001
 WORKDIR /app
 ENTRYPOINT ./cabbage

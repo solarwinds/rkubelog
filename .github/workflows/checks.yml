@@ -15,17 +15,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check out code
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
       with:
         fetch-depth: 1
-    - name: Setup Go
-      uses: actions/setup-go@v1
+    - uses: golangci/golangci-lint-action@v1
       with:
-        go-version: ${{ secrets.GO_VERSION }}
-    - run: |
-        export GOPATH="/home/runner/go"
-        make setup-tools
-        make all_checks
+        version: v1.27
+        args: --allow-parallel-runners --timeout 3m ./...
   build:
     name: build check
     runs-on: ubuntu-latest
@@ -36,7 +32,7 @@ jobs:
       with:
         fetch-depth: 1
     - name: Setup Go
-      uses: actions/setup-go@v1
+      uses: actions/setup-go@v2
       with:
         go-version: ${{ secrets.GO_VERSION }}
     - run: make build
