@@ -1,28 +1,11 @@
-setup-tools:
-	GO111MODULE=off go get -u github.com/mgechev/revive;
-	GO111MODULE=off go get -u github.com/kisielk/errcheck;
-	GO111MODULE=off go get -u honnef.co/go/tools/cmd/staticcheck;
-	GO111MODULE=off go get -u github.com/securego/gosec/cmd/gosec
-
 lint:
-	$(GOPATH)/bin/revive -config revive.toml
-
-error_check:
-	$(GOPATH)/bin/errcheck ./...
-
-static_check:
-	$(GOPATH)/bin/staticcheck -checks all ./...
-
+	docker run --rm -v $(PWD):/app -w /app golangci/golangci-lint:v1.27.0 golangci-lint run --allow-parallel-runners --timeout 3m ./...
+	
 vet:
 	go vet ./...
 
-sec_check:
-	$(GOPATH)/bin/gosec ./...
-
 tests:
 	go test -v ./...
-
-all_checks: vet lint error_check sec_check static_check
 
 build:
 	go build -o bin/cabbage
