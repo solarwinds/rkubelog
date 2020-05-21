@@ -65,7 +65,7 @@ You are free to set the described environment variables or pass run time argumen
 
 To run all the static checks:
 ```
-make all_checks
+make lint
 ```
 
 To run tests:

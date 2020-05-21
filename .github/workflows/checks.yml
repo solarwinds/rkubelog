@@ -28,7 +28,7 @@ jobs:
     needs: [checks]
     steps:
     - name: Check out code
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
       with:
         fetch-depth: 1
     - name: Setup Go
