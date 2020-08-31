@@ -1,4 +1,4 @@
-FROM golang:1.14.3-alpine as main
+FROM golang:1.15.0-alpine as main
 RUN apk update && apk add --no-cache git ca-certificates wget && update-ca-certificates
 RUN wget -O /etc/ssl/certs/papertrail-bundle.pem https://papertrailapp.com/tools/papertrail-bundle.pem
 WORKDIR /github.com/solarwinds/cabbage
