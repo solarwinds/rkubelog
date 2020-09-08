@@ -1,3 +1,6 @@
+# Copyright 2019 SolarWinds Worldwide, LLC.
+# SPDX-License-Identifier: Apache-2.0
+
 # Change this if you've changed the namespace in kustomize
 - op: replace
   path: /subjects/0/namespace
