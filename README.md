@@ -78,5 +78,10 @@ To create a Docker image:
 make docker
 ```
 
-# Questions/Comments?
+# Feedback
+
 Please [open an issue](https://github.com/solarwinds/rkubelog/issues/new), we'd love to hear from you. As a SolarWinds Project, it is supported in a best-effort fashion.
+
+# Security
+
+If you have identified a security vulnerability, please send an email to infosec@solarwinds.com (monitored 24/7). Please do not open a public issue.
