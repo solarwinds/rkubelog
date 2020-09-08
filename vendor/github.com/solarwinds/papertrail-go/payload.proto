@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package solarwinds.papertrail;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package=".;papertrailgo";
+
+message Payload {
+    string hostname = 1;
+    string tag = 2;
+    google.protobuf.Timestamp log_time = 3;
+    string log = 4;
+}
