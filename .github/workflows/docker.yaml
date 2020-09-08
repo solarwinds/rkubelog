@@ -1,3 +1,6 @@
+# Copyright 2019 SolarWinds Worldwide, LLC.
+# SPDX-License-Identifier: Apache-2.0
+
 name: Build Release Docker Image
 
 on:
@@ -12,7 +15,7 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: quay.io/solarwinds/cabbage
+          name: quay.io/solarwinds/rkubelog
           workdir: .
           username: turbo
           password: ${{ secrets.QUAY_PASSWORD }}

@@ -1,9 +1,5 @@
 run.sh
-
 .vscode
-
 bin/
-
 db/
-
 *.config

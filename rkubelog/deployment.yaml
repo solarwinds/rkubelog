@@ -1,0 +1,26 @@
+# Copyright 2019 SolarWinds Worldwide, LLC.
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "rkubelog"
+  namespace: "default"
+  labels:
+    app: rkubelog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rkubelog
+  template:
+    metadata:
+      labels:
+        kail.ignore: "true"
+        app: rkubelog
+    spec:
+      serviceAccountName: rkubelog-sa
+      containers:
+      - image: quay.io/solarwinds/rkubelog
+        imagePullPolicy: Always
+        name: "rkubelog"

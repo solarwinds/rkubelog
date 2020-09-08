@@ -1,3 +1,6 @@
+// Copyright 2019 SolarWinds Worldwide, LLC.
+// SPDX-License-Identifier: Apache-2.0
+
 // Package logshipper contains all the log shippers
 package logshipper
 

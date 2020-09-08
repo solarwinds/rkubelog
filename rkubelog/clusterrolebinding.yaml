@@ -1,17 +1,20 @@
+# Copyright 2019 SolarWinds Worldwide, LLC.
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: cabbage-sa
+  name: rkubelog-sa
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: cabbage-reader-binding
+  name: rkubelog-reader-binding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: cabbage-reader
+  name: rkubelog-reader
 subjects:
 - kind: ServiceAccount
-  name: cabbage-sa
+  name: rkubelog-sa
   namespace: kube-system

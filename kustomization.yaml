@@ -1,8 +1,11 @@
+# Copyright 2019 SolarWinds Worldwide, LLC.
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 bases:
-- ./cabbage
+- ./rkubelog
 
 namespace: kube-system
 
@@ -23,12 +26,12 @@ patchesJSON6902:
     group: apps
     version: v1
     kind: Deployment
-    name: cabbage
+    name: rkubelog
   path: logging-config-patch.yaml
 
 - target:
     group: rbac.authorization.k8s.io
     version: v1
     kind: ClusterRoleBinding
-    name: cabbage-reader-binding
+    name: rkubelog-reader-binding
   path: namespace-binding-config.yaml

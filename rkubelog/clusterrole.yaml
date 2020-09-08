@@ -1,8 +1,11 @@
+# Copyright 2019 SolarWinds Worldwide, LLC.
+# SPDX-License-Identifier: Apache-2.0
+
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   namespace: default
-  name: cabbage-reader
+  name: rkubelog-reader
 rules:
 - apiGroups: [""] # "" indicates the core API group
   resources: ["pods", "pods/log"]

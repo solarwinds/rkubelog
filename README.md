@@ -1,12 +1,12 @@
-# Cabbage
+# rkubelog
 
-Cabbage is the easiest way to get logs out of your k8s cluster and into [Papertrail](https://www.papertrail.com/) and [Loggly](https://www.loggly.com/). Because it doesn't require DaemonSets, sidecars, fluentd or persistent claims, it's one of the only solutions for logging in nodeless clusters, such as EKS on Fargate. But it's also perfect for smaller, local dev clusters to setup logging within seconds.
+rkubelog is the easiest way to get logs out of your k8s cluster and into [Papertrail](https://www.papertrail.com/) and [Loggly](https://www.loggly.com/). Because it doesn't require DaemonSets, sidecars, fluentd or persistent claims, it's one of the only solutions for logging in nodeless clusters, such as EKS on Fargate. But it's also perfect for smaller, local dev clusters to setup logging within seconds.
 
 ## Usage
 
 > __Warning:__ You need a pull secret for quay.io/solarwinds in your cluster! If you don't have access to quay, build the image yourself and push it to your registry.
 
-By default, cabbage runs in the `kube-system` namespace and will observe all logs from all pods in all namespaces except from itself or any other service in `kube-system`.
+By default, rkubelog runs in the `kube-system` namespace and will observe all logs from all pods in all namespaces except from itself or any other service in `kube-system`.
 
 In `logging-config-patch.yaml` follow the comments to setup the connection to the syslog sink (Papertrail in this example) and set a system tag for the syslog messages.
 
@@ -14,7 +14,7 @@ That's it. Preview with `kubectl apply -k . --dry-run -o yaml` and remove `--dry
 
 ## How it works
 
-Cabbage deploys a customized `kail` in an alpine container, using it to query the k8s API for pods (and keeping the pod list in sync) and their logs. Kail is a command line k8s logging client that lives at the opposite end of the specificity spectrum from `kubectl logs ...`. You can run kail yourself by cloning this repo and running `go run main.go`. This will give you all logs from all pods in all namespaces. 
+rkubelog deploys a customized `kail` in an alpine container, using it to query the k8s API for pods (and keeping the pod list in sync) and their logs. Kail is a command line k8s logging client that lives at the opposite end of the specificity spectrum from `kubectl logs ...`. You can run kail yourself by cloning this repo and running `go run main.go`. This will give you all logs from all pods in all namespaces. 
 To learn more about filters, read the [kail usage guide](https://github.com/boz/kail/tree/eb6734178238dc794641e82779855fabc2071e23#usage).
 
 ### Papertrail
@@ -58,7 +58,7 @@ make build
 
 To run the code:
 ```
-bin/cabbage
+bin/rkubelog
 ```
 
 You are free to set the described environment variables or pass run time arguments described above and/or follow [kail usage guide](https://github.com/boz/kail/tree/eb6734178238dc794641e82779855fabc2071e23#usage).
@@ -78,5 +78,10 @@ To create a Docker image:
 make docker
 ```
 
-# Questions/Comments?
-Please [open an issue](https://github.com/solarwinds/cabbage/issues/new), we'd love to hear from you. As a SolarWinds Project, it is supported in a best-effort fashion.
+# Feedback
+
+Please [open an issue](https://github.com/solarwinds/rkubelog/issues/new), we'd love to hear from you. As a SolarWinds Project, it is supported in a best-effort fashion.
+
+# Security
+
+If you have identified a security vulnerability, please send an email to infosec@solarwinds.com (monitored 24/7). Please do not open a public issue.
