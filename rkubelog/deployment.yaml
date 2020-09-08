@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "cabbage"
+  name: "rkubelog"
   namespace: "default"
   labels:
-    app: cabbage
+    app: rkubelog
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cabbage
+      app: rkubelog
   template:
     metadata:
       labels:
         kail.ignore: "true"
-        app: cabbage
+        app: rkubelog
     spec:
-      serviceAccountName: cabbage-sa
+      serviceAccountName: rkubelog-sa
       containers:
-      - image: quay.io/solarwinds/cabbage
+      - image: quay.io/solarwinds/rkubelog
         imagePullPolicy: Always
-        name: "cabbage"
+        name: "rkubelog"

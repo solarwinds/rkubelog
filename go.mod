@@ -1,4 +1,4 @@
-module github.com/solarwinds/cabbage
+module github.com/solarwinds/rkubelog
 
 go 1.15
 

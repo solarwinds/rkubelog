@@ -8,7 +8,7 @@ tests:
 	go test -v ./...
 
 build:
-	go build -o bin/cabbage
+	go build -o bin/rkubelog
 
 docker:
-	DOCKER_BUILDKIT=1 docker build -t quay.io/solarwinds/cabbage .
+	DOCKER_BUILDKIT=1 docker build -t quay.io/solarwinds/rkubelog .
