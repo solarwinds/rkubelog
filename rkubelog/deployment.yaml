@@ -21,6 +21,6 @@ spec:
     spec:
       serviceAccountName: rkubelog-sa
       containers:
-      - image: quay.io/solarwinds/rkubelog
+      - image: quay.io/solarwinds/rkubelog:r13
         imagePullPolicy: Always
         name: "rkubelog"
