@@ -78,6 +78,33 @@ To create a Docker image:
 make docker
 ```
 
+# Troubleshooting
+
+#### Logs do not appear in PaperTrail/Loggly after deploying rkubelog
+
+If you deploy rkubelog on nodeless clusters, such as EKS on Fargate, you may not see logs flow immediately. Specifically on EKS on Fargate it may take up to 2 minutes for a pod to be fully deployed, as AWS needs to provision Fargate nodes. You can check the progress using:
+
+```bash
+kubectl get pods -o wide -n kube-system | grep rkubelog
+```
+
+- The "status" should be "Runnig"
+- The "node" column should have a proper value (`fargate-ip-192-168-X-X.us-east-2.compute.internal`)
+- The "nominated node" column should be empty
+
+If all looks good and you still don't see logs in PT/LG, please open an issue.
+
+#### Logs suddenly stopped flowing
+
+Please restart the rkubelog deployment:
+
+```bash
+kubectl scale deployment rkubelog --replicas=0 -n kube-system
+kubectl scale deployment rkubelog --replicas=1 -n kube-system
+```
+
+If the problem persists, please open an issue.
+
 # Feedback
 
 Please [open an issue](https://github.com/solarwinds/rkubelog/issues/new), we'd love to hear from you. As a SolarWinds Project, it is supported in a best-effort fashion.
