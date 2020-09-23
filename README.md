@@ -8,9 +8,13 @@ rkubelog is the easiest way to get logs out of your k8s cluster and into [Papert
 
 By default, rkubelog runs in the `kube-system` namespace and will observe all logs from all pods in all namespaces except from itself or any other service in `kube-system`.
 
-In `logging-config-patch.yaml` follow the comments to setup the connection to the syslog sink (Papertrail in this example) and set a system tag for the syslog messages.
+To deploy rkubelog:
 
-That's it. Preview with `kubectl apply -k . --dry-run -o yaml` and remove `--dry-run` to apply.
+- Follow the account setup steps in the _How it Works_ section for the logging service of your choice
+- Preview the deployment using `kubectl apply -k . --dry-run -o yaml`
+- If all looks good, apply the deployment using `kubectl apply -k .`
+
+If you run into issues, please read the _Troubleshooting_ section at the end of this document.
 
 ## How it works
 
@@ -18,14 +22,14 @@ rkubelog deploys a customized `kail` in an alpine container, using it to query t
 To learn more about filters, read the [kail usage guide](https://github.com/boz/kail/tree/eb6734178238dc794641e82779855fabc2071e23#usage).
 
 ### Papertrail
+
 In order to ship logs to Papertrail, you will need a Papertrail account. If you don't have one already, you can sign up for one [here](https://www.papertrail.com/). After you are logged in, you will need to create a `Log Destination` from under the `Settings` menu. When a log destination is created, you will be given a host:port combo.
 
-**Environment variables**
+The PaperTrail credentials are automatically pulled from a secret named 'logging-secret'. Before deploying rkubelog, you need to [create a kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) with that name in the `kube-system` namespace with the following fields:
+
 - `PAPERTRAIL_PROTOCOL` - Acceptable values are udp, tcp, tls. This also depends on the choices that are selected under the `Destination Settings`; by default, a new destination accepts TLS and UDP connections.
 - `PAPERTRAIL_HOST` - Log destination host
 - `PAPERTRAIL_PORT` - Log destination port
-
-You can update the `logging-secrets.yaml` and `logging-config-patch.yaml` files accordingly with these values, remove the unused ones and use `kubectl apply...` as described above.
 
 For any help with Papertrail, please check out their help page [here](https://help.papertrailapp.com/).
 
@@ -38,14 +42,14 @@ Apart from the environment variables, we have also added some extra flags to hel
 If you want to override the defaults for any of the above flags, they will have to be passed in as arguments to main process.
 
 ### Loggly
+
 In order to ship logs to Loggly, you will need a Loggly account. If you don't have one already you can sign up for one [here](https://www.loggly.com/). After you are logged in, you will need to create a `Customer Token` from under the `Source Setup` menu item.
 
-**Environment variable**
+The Loggly credentials are automatically pulled from a secret named 'logging-secret'. Before deploying rkubelog, you need to [create a kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) with that name in the `kube-system` namespace with the following fields:
+
 - `LOGGLY_TOKEN` - customer token from Loggly (__not__ API token)
 
 For any help with Loggly, please checkout their help page [here](https://www.loggly.com/docs-index/).
-
-You can update the `logging-secrets.yaml` and `logging-config-patch.yaml` files accordingly with these values, remove the unused ones and use `kubectl apply...` as described above.
 
 ## Development
 
@@ -80,7 +84,7 @@ make docker
 
 # Troubleshooting
 
-#### Logs do not appear in PaperTrail/Loggly after deploying rkubelog
+### Logs do not appear in PaperTrail/Loggly after deploying rkubelog
 
 If you deploy rkubelog on nodeless clusters, such as EKS on Fargate, you may not see logs flow immediately. Specifically on EKS on Fargate it may take up to 2 minutes for a pod to be fully deployed, as AWS needs to provision Fargate nodes. You can check the progress using:
 
@@ -94,7 +98,7 @@ kubectl get pods -o wide -n kube-system | grep rkubelog
 
 If all looks good and you still don't see logs in PT/LG, please open an issue.
 
-#### Logs suddenly stopped flowing
+### Logs suddenly stopped flowing
 
 Please restart the rkubelog deployment:
 
