@@ -33,14 +33,6 @@ The PaperTrail credentials are automatically pulled from a secret named 'logging
 
 For any help with Papertrail, please check out their help page [here](https://help.papertrailapp.com/).
 
-Apart from the environment variables, we have also added some extra flags to help configure the Papertrail log shipper.
-`--pt-db-location` - Location for temporary db used by Papertrail shipper. Default value is "./db".
-`--pt-data-retention` - Retention period for local Papertrail log data. Default value is "4h".
-`--pt-worker-count` - Papertrail log shipper worker count per CPU. Default value is 10. If there are 4 CPUs, the total will be 40.
-`--pt-max-disk-usage` - Papertrail log shipper max disk usage in percent. Default value is 50.
-
-If you want to override the defaults for any of the above flags, they will have to be passed in as arguments to main process.
-
 ### Loggly
 
 In order to ship logs to Loggly, you will need a Loggly account. If you don't have one already you can sign up for one [here](https://www.loggly.com/). After you are logged in, you will need to create a `Customer Token` from under the `Source Setup` menu item.
