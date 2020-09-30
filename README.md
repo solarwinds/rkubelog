@@ -16,11 +16,6 @@ To deploy rkubelog:
 
 If you run into issues, please read the _Troubleshooting_ section at the end of this document.
 
-## How it works
-
-rkubelog deploys a customized `kail` in an alpine container, using it to query the k8s API for pods (and keeping the pod list in sync) and their logs. Kail is a command line k8s logging client that lives at the opposite end of the specificity spectrum from `kubectl logs ...`. You can run kail yourself by cloning this repo and running `go run main.go`. This will give you all logs from all pods in all namespaces. 
-To learn more about filters, read the [kail usage guide](https://github.com/boz/kail/tree/eb6734178238dc794641e82779855fabc2071e23#usage).
-
 ### Papertrail
 
 In order to ship logs to Papertrail, you will need a Papertrail account. If you don't have one already, you can sign up for one [here](https://www.papertrail.com/). After you are logged in, you will need to create a `Log Destination` from under the `Settings` menu. When a log destination is created, you will be given a host:port combo.
@@ -44,6 +39,8 @@ The Loggly credentials are automatically pulled from a secret named 'logging-sec
 For any help with Loggly, please checkout their help page [here](https://www.loggly.com/docs-index/).
 
 ## Development
+
+> __Info:__ You only need to reference this section if you plan to contribute to the rkubelog development.
 
 You will need Go (1.11+) installed on your machine. Then, clone this repo to a suitable location on your machine and `cd` into it. For quick command access the project includes a Makefile.
 
