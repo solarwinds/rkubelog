@@ -31,7 +31,7 @@ The PaperTrail credentials are automatically pulled from a secret named 'logging
 - `PAPERTRAIL_HOST` - Log destination host
 - `PAPERTRAIL_PORT` - Log destination port
 
-For any help with Papertrail, please check out their help page [here](https://help.papertrailapp.com/).
+For any help with Papertrail, please check out their help page [here](https://documentation.solarwinds.com/en/Success_Center/papertrail/Content/papertrail_Documentation.htm).
 
 ### Loggly
 
