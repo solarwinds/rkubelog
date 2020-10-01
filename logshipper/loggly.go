@@ -21,11 +21,13 @@ func CreateLogglyShipper(token string) *LogglyShipper {
 func (l *LogglyShipper) Log(ev kail.Event) error {
 	if l.logglyClient != nil && ev != nil && len(ev.Log()) > 0 {
 		return l.logglyClient.Send(map[string]interface{}{
-			"message":   string(ev.Log()),
-			"node":      ev.Source().Node(),
-			"name":      ev.Source().Name(),
-			"namespace": ev.Source().Namespace(),
-			"container": ev.Source().Container(),
+			"rkubelog": map[string]interface{}{
+				"message":   string(ev.Log()),
+				"node":      ev.Source().Node(),
+				"name":      ev.Source().Name(),
+				"namespace": ev.Source().Namespace(),
+				"container": ev.Source().Container(),
+			},
 		})
 	}
 	return nil
