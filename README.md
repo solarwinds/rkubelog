@@ -4,7 +4,7 @@ rkubelog is the easiest way to get logs out of your k8s cluster and into [Papert
 
 ## Usage
 
-> __Info:__ Make sure to always reference rkubelog versions explicitly in the image. Do not use `latest` tags. The current version is `quay.io/solarwinds/rkubelog:<github_version>`, where `github_version` is the latest revision listed in [Releases](https://github.com/solarwinds/rkubelog/releases), for example `r16`.
+> __Info:__ Make sure to always reference rkubelog versions explicitly in the image. Do not use `latest` tags. The current version is `quay.io/solarwinds/rkubelog:<github_version>`, where `github_version` is the latest revision listed in [Releases](https://github.com/solarwinds/rkubelog/releases), for example `r17`.
 
 By default, rkubelog runs in the `kube-system` namespace and will observe all logs from all pods in all namespaces except from itself or any other service in `kube-system`.
 
