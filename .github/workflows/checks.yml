@@ -6,11 +6,19 @@ on:
   push:
     branches:
       - '*'
-    tags:
-      - 'v*'
+    paths-ignore:
+      - 'README.md'
+      - 'SECURITY.md'
+      - 'LICENSE'
+      - 'rkubelog/**'
   pull_request:
     branches:
       - master
+    paths-ignore:
+      - 'README.md'
+      - 'SECURITY.md'
+      - 'LICENSE'
+      - 'rkubelog/**'
 
 jobs:
   checks:
