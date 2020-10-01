@@ -14,7 +14,7 @@ type LogglyShipper struct {
 
 func CreateLogglyShipper(token string) *LogglyShipper {
 	return &LogglyShipper{
-		logglyClient: loggly.New(token),
+		logglyClient: loggly.New(token, "rkubelog"),
 	}
 }
 
