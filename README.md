@@ -25,6 +25,7 @@ The PaperTrail credentials are automatically pulled from a secret named 'logging
 - `PAPERTRAIL_PROTOCOL` - Acceptable values are udp, tcp, tls. This also depends on the choices that are selected under the `Destination Settings`; by default, a new destination accepts TLS and UDP connections.
 - `PAPERTRAIL_HOST` - Log destination host
 - `PAPERTRAIL_PORT` - Log destination port
+- `LOGGLY_TOKEN` set to `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX` to disable Loggly
 
 For any help with Papertrail, please check out their help page [here](https://documentation.solarwinds.com/en/Success_Center/papertrail/Content/papertrail_Documentation.htm).
 
@@ -35,6 +36,12 @@ In order to ship logs to Loggly, you will need a Loggly account. If you don't ha
 The Loggly credentials are automatically pulled from a secret named 'logging-secret'. Before deploying rkubelog, you need to [create a kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) with that name in the `kube-system` namespace with the following fields:
 
 - `LOGGLY_TOKEN` - customer token from Loggly (__not__ API token)
+
+Also add these default values to disable PaperTrail logging:
+
+- `PAPERTRAIL_PROTOCOL=tcp`
+- `PAPERTRAIL_HOST=logsX.papertrailapp.com`
+- `PAPERTRAIL_PORT=XXXXX`
 
 For any help with Loggly, please checkout their help page [here](https://www.loggly.com/docs-index/).
 
