@@ -24,3 +24,5 @@ spec:
       - image: quay.io/solarwinds/rkubelog:r17
         imagePullPolicy: Always
         name: "rkubelog"
+        command:
+        - /app/rkubelog

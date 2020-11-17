@@ -1,11 +1,6 @@
 # Copyright 2019 SolarWinds Worldwide, LLC.
 # SPDX-License-Identifier: Apache-2.0
 
-# This is the system tag in the syslog msgs sent to PT
-- op: add
-  path: /spec/template/spec/containers/0/args
-  value: ["rkubelog"]
-
 # Put your Papertrail & Loggly config here
 - op: add
   path: /spec/template/spec/containers/0/env
