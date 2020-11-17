@@ -12,7 +12,6 @@ FROM alpine
 COPY --from=main /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=main /etc/ssl/certs/papertrail-bundle.pem /etc/ssl/certs/
 COPY --from=main /rkubelog /app/rkubelog
-RUN chmod -R 777 /app
 USER 1001
 WORKDIR /app
 ENTRYPOINT ./rkubelog
