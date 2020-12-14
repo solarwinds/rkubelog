@@ -20,7 +20,7 @@ If you run into issues, please read the _Troubleshooting_ section at the end of 
 
 In order to ship logs to Papertrail, you will need a Papertrail account. If you don't have one already, you can sign up for one [here](https://www.papertrail.com/). After you are logged in, you will need to create a `Log Destination` from under the `Settings` menu. When a log destination is created, you will be given a host:port combo.
 
-The PaperTrail credentials are automatically pulled from a secret named 'logging-secret'. Before deploying rkubelog, you need to [create a kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) with that name in the `kube-system` namespace with the following fields:
+The Papertrail credentials are automatically pulled from a secret named 'logging-secret'. Before deploying rkubelog, you need to [create a kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) with that name in the `kube-system` namespace with the following fields:
 
 - `PAPERTRAIL_PROTOCOL` - Acceptable values are udp, tcp, tls. This also depends on the choices that are selected under the `Destination Settings`; by default, a new destination accepts TLS and UDP connections.
 - `PAPERTRAIL_HOST` - Log destination host
@@ -37,13 +37,13 @@ The Loggly credentials are automatically pulled from a secret named 'logging-sec
 
 - `LOGGLY_TOKEN` - customer token from Loggly (__not__ API token)
 
-Also add these default values to disable PaperTrail logging:
+Also add these default values to disable Papertrail logging (following are just samples, please use your account specific values):
 
 - `PAPERTRAIL_PROTOCOL=tcp`
 - `PAPERTRAIL_HOST=logsX.papertrailapp.com`
 - `PAPERTRAIL_PORT=XXXXX`
 
-For any help with Loggly, please checkout their help page [here](https://www.loggly.com/docs-index/).
+For any help with Loggly, please checkout their help page [here](https://documentation.solarwinds.com/en/Success_Center/loggly/).
 
 ## Development
 
@@ -80,7 +80,7 @@ make docker
 
 # Troubleshooting
 
-### Logs do not appear in PaperTrail/Loggly after deploying rkubelog
+### Logs do not appear in Papertrail/Loggly after deploying rkubelog
 
 If you deploy rkubelog on nodeless clusters, such as EKS on Fargate, you may not see logs flow immediately. Specifically on EKS on Fargate it may take up to 2 minutes for a pod to be fully deployed, as AWS needs to provision Fargate nodes. You can check the progress using:
 
