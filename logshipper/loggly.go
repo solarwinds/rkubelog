@@ -8,16 +8,19 @@ import (
 	loggly "github.com/segmentio/go-loggly"
 )
 
+// LogglyShipper type represents a loggly log shipper
 type LogglyShipper struct {
 	logglyClient *loggly.Client
 }
 
+// CreateLogglyShipper creates a LogglyShipper with the given token
 func CreateLogglyShipper(token string) *LogglyShipper {
 	return &LogglyShipper{
 		logglyClient: loggly.New(token, "rkubelog"),
 	}
 }
 
+// Log ships the kail event to loggly asynchronously
 func (l *LogglyShipper) Log(ev kail.Event) error {
 	if l.logglyClient != nil && ev != nil && len(ev.Log()) > 0 {
 		return l.logglyClient.Send(map[string]interface{}{
@@ -33,6 +36,7 @@ func (l *LogglyShipper) Log(ev kail.Event) error {
 	return nil
 }
 
+// Close ...
 func (l *LogglyShipper) Close() error {
 	return nil
 }

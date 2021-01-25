@@ -1,4 +1,4 @@
-// Copyright 2020 Solarwinds Inc.
+// Copyright 2021 Solarwinds Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import (
 	"syscall"
 	"time"
 
-	badger "github.com/dgraph-io/badger/v2"
+	badger "github.com/dgraph-io/badger/v3"
 	"github.com/golang/protobuf/ptypes"
 	"github.com/papertrail/remote_syslog2/syslog"
 	"github.com/pkg/errors"

@@ -190,6 +190,7 @@ func createLog() logutil.Log {
 	kingpin.FatalIfError(err, "Invalid log level")
 
 	parent := logrus.New()
+	logrus.SetLevel(lvl)
 	parent.Level = lvl
 
 	// if *flagLogFile != "" {
@@ -346,18 +347,6 @@ func createController(
 
 func streamLogs(controller kail.Controller, logShippers []logshipper.LogShipper) {
 	writer := kail.NewWriter(os.Stdout)
-	// shipper := make(chan kail.Event, 1000)
-	// go func() {
-	// 	for ev := range shipper {
-	// 		for _, l := range logShippers {
-	// 			if l != nil {
-	// 				if err := l.Log(ev); err != nil {
-	// 					logrus.Error(err)
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }()
 	for {
 		select {
 		case ev := <-controller.Events():
