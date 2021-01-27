@@ -193,6 +193,10 @@ func createLog() logutil.Log {
 	logrus.SetLevel(lvl)
 	parent.Level = lvl
 
+	if os.Getenv("DEBUG") == "true" {
+		logrus.SetLevel(logrus.DebugLevel)
+	}
+
 	// if *flagLogFile != "" {
 	// 	file, err := os.OpenFile(*flagLogFile, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
 	// 	kingpin.FatalIfError(err, "Error opening log file")
