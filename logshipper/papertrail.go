@@ -14,14 +14,17 @@ import (
 	papertrailgo "github.com/solarwinds/papertrail-go"
 )
 
+// PapertrailShipper type represents a papertrail log shipper
 type PapertrailShipper struct {
 	papertrailShipperInst papertrailgo.LoggerInterface
 }
 
+// CreatePapertrailShipper creates a PapertrailShipper with the given metadata
 func CreatePapertrailShipper(ctx context.Context, paperTrailProtocol, paperTrailHost string, paperTrailPort int,
-	dbLocation string, retention time.Duration,
+	staticTags, dbLocation string, retention time.Duration,
 	workerCount int, maxDiskUsage float64) (*PapertrailShipper, error) {
-	lg, err := papertrailgo.NewPapertrailLogger(ctx, paperTrailProtocol, paperTrailHost, paperTrailPort, dbLocation, retention, workerCount, maxDiskUsage)
+	lg, err := papertrailgo.NewPapertrailLogger(ctx, paperTrailProtocol, paperTrailHost, paperTrailPort, staticTags,
+		dbLocation, retention, workerCount, maxDiskUsage)
 	if err != nil {
 		err = errors.Wrap(err, "unable to create a papertrail logger")
 		logrus.Error(err)
@@ -32,6 +35,7 @@ func CreatePapertrailShipper(ctx context.Context, paperTrailProtocol, paperTrail
 	}, nil
 }
 
+// Log ships the kail event to papertrail asynchronously
 func (l *PapertrailShipper) Log(ev kail.Event) error {
 	if l.papertrailShipperInst != nil && ev != nil && len(ev.Log()) > 0 {
 		payload := &papertrailgo.Payload{
@@ -44,6 +48,7 @@ func (l *PapertrailShipper) Log(ev kail.Event) error {
 	return nil
 }
 
+// Close closes the papertrailshipper
 func (l *PapertrailShipper) Close() error {
 	if l.papertrailShipperInst != nil {
 		return l.papertrailShipperInst.Close()

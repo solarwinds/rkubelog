@@ -14,9 +14,18 @@ To deploy rkubelog:
 - Preview the deployment using `kubectl apply -k . --dry-run -o yaml`
 - If all looks good, apply the deployment using `kubectl apply -k .`
 
+
 If you run into issues, please read the _Troubleshooting_ section at the end of this document.
 
-### Papertrail
+### Static Tags
+We have recently added the ability to set static tags which will get sent with all the logs. 
+
+If you are using several instances of `rKubeLog`, you can use this `TAGS` field to differentiate between the logs from the different environments.
+
+If you are interested in using this capability, you can set the value for `TAGS` in the `logging-config-patch.yaml` file. The value can be any string.
+
+
+### Using Papertrail
 
 In order to ship logs to Papertrail, you will need a Papertrail account. If you don't have one already, you can sign up for one [here](https://www.papertrail.com/). After you are logged in, you will need to create a `Log Destination` from under the `Settings` menu. When a log destination is created, you will be given a host:port combo.
 
@@ -25,11 +34,11 @@ The Papertrail credentials are automatically pulled from a secret named 'logging
 - `PAPERTRAIL_PROTOCOL` - Acceptable values are udp, tcp, tls. This also depends on the choices that are selected under the `Destination Settings`; by default, a new destination accepts TLS and UDP connections.
 - `PAPERTRAIL_HOST` - Log destination host
 - `PAPERTRAIL_PORT` - Log destination port
-- `LOGGLY_TOKEN` set to `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX` to disable Loggly
+- `LOGGLY_TOKEN` set to `` to disable Loggly
 
 For any help with Papertrail, please check out their help page [here](https://documentation.solarwinds.com/en/Success_Center/papertrail/Content/papertrail_Documentation.htm).
 
-### Loggly
+### Using Loggly
 
 In order to ship logs to Loggly, you will need a Loggly account. If you don't have one already you can sign up for one [here](https://www.loggly.com/). After you are logged in, you will need to create a `Customer Token` from under the `Source Setup` menu item.
 
@@ -39,11 +48,14 @@ The Loggly credentials are automatically pulled from a secret named 'logging-sec
 
 Also add these default values to disable Papertrail logging (following are just samples, please use your account specific values):
 
-- `PAPERTRAIL_PROTOCOL=tcp`
-- `PAPERTRAIL_HOST=logsX.papertrailapp.com`
-- `PAPERTRAIL_PORT=XXXXX`
+- `PAPERTRAIL_PROTOCOL=`
+- `PAPERTRAIL_HOST=`
+- `PAPERTRAIL_PORT=`
 
 For any help with Loggly, please checkout their help page [here](https://documentation.solarwinds.com/en/Success_Center/loggly/).
+
+
+__Please note:__ If you want to send logs to both Loggly and Papertrail, you can configure both Loggly and Papertrail related values above to valid ones. Most will only want to use one or the other.
 
 ## Development
 

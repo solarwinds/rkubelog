@@ -115,6 +115,8 @@ func main() {
 
 	logglyToken := os.Getenv("LOGGLY_TOKEN")
 
+	customStaticTags := os.Getenv("TAGS")
+
 	var logShippers []logshipper.LogShipper
 	defer func() {
 		for _, l := range logShippers {
@@ -126,12 +128,12 @@ func main() {
 		}
 	}()
 	if strings.TrimSpace(logglyToken) != "" {
-		logShippers = append(logShippers, logshipper.CreateLogglyShipper(logglyToken))
+		logShippers = append(logShippers, logshipper.CreateLogglyShipper(logglyToken, customStaticTags))
 	}
 	if strings.TrimSpace(papertrailProtocol) != "" && strings.TrimSpace(papertrailHost) != "" && strings.TrimSpace(papertrailPort) != "" {
 		pPort, _ := strconv.Atoi(papertrailPort)
 		papertrailShipper, err := logshipper.CreatePapertrailShipper(context.Background(), papertrailProtocol,
-			papertrailHost, pPort, *flagPapertrailDBLocation, *flagPapertrailRetention, *flagPapertrailWorkerCount, *flagPapertrailMaxDiskUsage)
+			papertrailHost, pPort, customStaticTags, *flagPapertrailDBLocation, *flagPapertrailRetention, *flagPapertrailWorkerCount, *flagPapertrailMaxDiskUsage)
 		kingpin.FatalIfError(err, "unable to create a papertrail log shipper, please check the provided values")
 		logShippers = append(logShippers, papertrailShipper)
 	}
@@ -190,7 +192,12 @@ func createLog() logutil.Log {
 	kingpin.FatalIfError(err, "Invalid log level")
 
 	parent := logrus.New()
+	logrus.SetLevel(lvl)
 	parent.Level = lvl
+
+	if os.Getenv("DEBUG") == "true" {
+		logrus.SetLevel(logrus.DebugLevel)
+	}
 
 	// if *flagLogFile != "" {
 	// 	file, err := os.OpenFile(*flagLogFile, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
@@ -346,18 +353,6 @@ func createController(
 
 func streamLogs(controller kail.Controller, logShippers []logshipper.LogShipper) {
 	writer := kail.NewWriter(os.Stdout)
-	// shipper := make(chan kail.Event, 1000)
-	// go func() {
-	// 	for ev := range shipper {
-	// 		for _, l := range logShippers {
-	// 			if l != nil {
-	// 				if err := l.Log(ev); err != nil {
-	// 					logrus.Error(err)
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }()
 	for {
 		select {
 		case ev := <-controller.Events():

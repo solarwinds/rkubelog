@@ -7,8 +7,10 @@ github.com/Azure/go-autorest/autorest/azure
 github.com/Azure/go-autorest/autorest/date
 github.com/Azure/go-autorest/logger
 github.com/Azure/go-autorest/version
-# github.com/DataDog/zstd v1.4.5
+# github.com/DataDog/zstd v1.4.1
 github.com/DataDog/zstd
+# github.com/RackSec/srslog v0.0.0-20180709174129-a4725f04ec91
+github.com/RackSec/srslog
 # github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
 github.com/alecthomas/template
 github.com/alecthomas/template/parse
@@ -87,21 +89,21 @@ github.com/client9/codegen
 github.com/client9/codegen/shell
 # github.com/davecgh/go-spew v1.1.1
 github.com/davecgh/go-spew/spew
-# github.com/dgraph-io/badger/v2 v2.0.3
-github.com/dgraph-io/badger/v2
-github.com/dgraph-io/badger/v2/options
-github.com/dgraph-io/badger/v2/pb
-github.com/dgraph-io/badger/v2/skl
-github.com/dgraph-io/badger/v2/table
-github.com/dgraph-io/badger/v2/trie
-github.com/dgraph-io/badger/v2/y
-# github.com/dgraph-io/ristretto v0.0.2
+# github.com/dgraph-io/badger/v3 v3.2011.0
+github.com/dgraph-io/badger/v3
+github.com/dgraph-io/badger/v3/fb
+github.com/dgraph-io/badger/v3/options
+github.com/dgraph-io/badger/v3/pb
+github.com/dgraph-io/badger/v3/skl
+github.com/dgraph-io/badger/v3/table
+github.com/dgraph-io/badger/v3/trie
+github.com/dgraph-io/badger/v3/y
+# github.com/dgraph-io/ristretto v0.0.4-0.20201205013540-bafef7527542
 github.com/dgraph-io/ristretto
 github.com/dgraph-io/ristretto/z
+github.com/dgraph-io/ristretto/z/simd
 # github.com/dgrijalva/jwt-go v0.0.0-20170608005149-a539ee1a749a
 github.com/dgrijalva/jwt-go
-# github.com/dgryski/go-farm v0.0.0-20200201041132-a6ae2369ad13
-github.com/dgryski/go-farm
 # github.com/dustin/go-humanize v1.0.0
 github.com/dustin/go-humanize
 # github.com/fatih/color v1.7.0
@@ -109,7 +111,9 @@ github.com/fatih/color
 # github.com/gogo/protobuf v0.0.0-20171007142547-342cbe0a0415
 github.com/gogo/protobuf/proto
 github.com/gogo/protobuf/sortkeys
-# github.com/golang/protobuf v1.4.2
+# github.com/golang/groupcache v0.0.0-20190702054246-869f871628b6
+github.com/golang/groupcache/lru
+# github.com/golang/protobuf v1.4.3
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
@@ -117,6 +121,8 @@ github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
 # github.com/golang/snappy v0.0.1
 github.com/golang/snappy
+# github.com/google/flatbuffers v1.12.0
+github.com/google/flatbuffers/go
 # github.com/google/go-github/v25 v25.0.1
 github.com/google/go-github/v25/github
 # github.com/google/go-querystring v1.0.0
@@ -187,8 +193,8 @@ github.com/json-iterator/go
 github.com/kamilsk/retry/v4
 github.com/kamilsk/retry/v4/backoff
 github.com/kamilsk/retry/v4/strategy
-# github.com/konsorten/go-windows-terminal-sequences v1.0.3
-github.com/konsorten/go-windows-terminal-sequences
+# github.com/kr/pretty v0.2.0
+## explicit
 # github.com/mattn/go-colorable v0.0.9
 github.com/mattn/go-colorable
 # github.com/mattn/go-isatty v0.0.4
@@ -202,8 +208,6 @@ github.com/mitchellh/go-homedir
 github.com/modern-go/concurrent
 # github.com/modern-go/reflect2 v1.0.1
 github.com/modern-go/reflect2
-# github.com/papertrail/remote_syslog2 v0.0.0-20190614180052-09062fc2b02a
-github.com/papertrail/remote_syslog2/syslog
 # github.com/pkg/errors v0.9.1
 ## explicit
 github.com/pkg/errors
@@ -212,18 +216,25 @@ github.com/satori/go.uuid
 # github.com/segmentio/go-loggly v0.5.0
 ## explicit
 github.com/segmentio/go-loggly
-# github.com/sirupsen/logrus v1.6.0
+# github.com/sirupsen/logrus v1.7.0
 ## explicit
 github.com/sirupsen/logrus
-# github.com/solarwinds/papertrail-go v0.0.0-20200520233511-9f29fa6d104e
+# github.com/solarwinds/papertrail-go v0.0.0-20210128013555-edd1abecd697
 ## explicit
 github.com/solarwinds/papertrail-go
 # github.com/spf13/pflag v1.0.3
 github.com/spf13/pflag
+# github.com/stretchr/testify v1.5.1
+## explicit
+# go.opencensus.io v0.22.5
+go.opencensus.io
+go.opencensus.io/internal
+go.opencensus.io/trace
+go.opencensus.io/trace/internal
+go.opencensus.io/trace/tracestate
 # golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
 golang.org/x/crypto/ssh/terminal
-# golang.org/x/net v0.0.0-20200822124328-c89045814202
-## explicit
+# golang.org/x/net v0.0.0-20201021035429-f5854403a974
 golang.org/x/net/context
 golang.org/x/net/context/ctxhttp
 golang.org/x/net/http/httpguts
@@ -238,13 +249,13 @@ golang.org/x/oauth2/google
 golang.org/x/oauth2/internal
 golang.org/x/oauth2/jws
 golang.org/x/oauth2/jwt
-# golang.org/x/sync v0.0.0-20190227155943-e225da77a7e6
+# golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
 golang.org/x/sync/errgroup
-# golang.org/x/sys v0.0.0-20200519105757-fe76b779f299
+# golang.org/x/sys v0.0.0-20200930185726-fdedc70b468f
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
 golang.org/x/sys/windows
-# golang.org/x/text v0.3.1-0.20181227161524-e6919f6577db
+# golang.org/x/text v0.3.3
 golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
@@ -262,7 +273,7 @@ google.golang.org/appengine/internal/modules
 google.golang.org/appengine/internal/remote_api
 google.golang.org/appengine/internal/urlfetch
 google.golang.org/appengine/urlfetch
-# google.golang.org/protobuf v1.23.0
+# google.golang.org/protobuf v1.25.0
 google.golang.org/protobuf/encoding/prototext
 google.golang.org/protobuf/encoding/protowire
 google.golang.org/protobuf/internal/descfmt
@@ -273,12 +284,11 @@ google.golang.org/protobuf/internal/encoding/messageset
 google.golang.org/protobuf/internal/encoding/tag
 google.golang.org/protobuf/internal/encoding/text
 google.golang.org/protobuf/internal/errors
-google.golang.org/protobuf/internal/fieldnum
 google.golang.org/protobuf/internal/fieldsort
 google.golang.org/protobuf/internal/filedesc
 google.golang.org/protobuf/internal/filetype
 google.golang.org/protobuf/internal/flags
-google.golang.org/protobuf/internal/genname
+google.golang.org/protobuf/internal/genid
 google.golang.org/protobuf/internal/impl
 google.golang.org/protobuf/internal/mapsort
 google.golang.org/protobuf/internal/pragma

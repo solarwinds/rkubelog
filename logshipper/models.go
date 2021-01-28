@@ -6,6 +6,7 @@ package logshipper
 
 import "github.com/boz/kail"
 
+// LogShipper is the interface which all log shipper types have to adhere to
 type LogShipper interface {
 	Log(kail.Event) error
 	Close() error
