@@ -9,6 +9,8 @@ github.com/Azure/go-autorest/logger
 github.com/Azure/go-autorest/version
 # github.com/DataDog/zstd v1.4.1
 github.com/DataDog/zstd
+# github.com/RackSec/srslog v0.0.0-20180709174129-a4725f04ec91
+github.com/RackSec/srslog
 # github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
 github.com/alecthomas/template
 github.com/alecthomas/template/parse
@@ -206,8 +208,6 @@ github.com/mitchellh/go-homedir
 github.com/modern-go/concurrent
 # github.com/modern-go/reflect2 v1.0.1
 github.com/modern-go/reflect2
-# github.com/papertrail/remote_syslog2 v0.0.0-20190614180052-09062fc2b02a
-github.com/papertrail/remote_syslog2/syslog
 # github.com/pkg/errors v0.9.1
 ## explicit
 github.com/pkg/errors
@@ -219,7 +219,7 @@ github.com/segmentio/go-loggly
 # github.com/sirupsen/logrus v1.7.0
 ## explicit
 github.com/sirupsen/logrus
-# github.com/solarwinds/papertrail-go v0.0.0-20210122050034-df0837c6bc1e
+# github.com/solarwinds/papertrail-go v0.0.0-20210128000726-4cac9ee6de0a
 ## explicit
 github.com/solarwinds/papertrail-go
 # github.com/spf13/pflag v1.0.3

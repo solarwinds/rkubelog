@@ -27,9 +27,9 @@ import (
 	"syscall"
 	"time"
 
+	syslog "github.com/RackSec/srslog"
 	badger "github.com/dgraph-io/badger/v3"
 	"github.com/golang/protobuf/ptypes"
-	"github.com/papertrail/remote_syslog2/syslog"
 	"github.com/pkg/errors"
 	uuid "github.com/satori/go.uuid"
 	"github.com/sirupsen/logrus"
@@ -76,9 +76,9 @@ type Logger struct {
 }
 
 // NewPapertrailLogger creates a papertrail log shipper and also returns an instance of Logger
-func NewPapertrailLogger(ctx context.Context, paperTrailProtocol, paperTrailHost string, paperTrailPort int, dbLocation string, retention time.Duration,
+func NewPapertrailLogger(ctx context.Context, paperTrailProtocol, paperTrailHost string, paperTrailPort int, tag, dbLocation string, retention time.Duration,
 	workerCount int, maxDiskUsage float64) (*Logger, error) {
-	sLogWriter, err := NewPapertailShipper(paperTrailProtocol, paperTrailHost, paperTrailPort)
+	sLogWriter, err := NewPapertailShipper(paperTrailProtocol, paperTrailHost, paperTrailPort, tag)
 	if err != nil {
 		err = errors.Wrap(err, "error while creating a papertrail shipper instance")
 		logrus.Error(err)
@@ -177,13 +177,11 @@ func (p *Logger) Log(payload *Payload) error {
 	return nil
 }
 
-func (p *Logger) sendLogs(payload *Payload) {
+func (p *Logger) sendLogs(payload *Payload) error {
 	logrus.Debugf("sending log to papertrail: %+v", payload)
 	ts, _ := ptypes.Timestamp(payload.GetLogTime()) // we can skip err check here
-	priority := syslog.SevNotice
-	p.syslogWriter.Write(syslog.Packet{
-		Severity: syslog.Priority(priority),
-		// Facility: syslog.Priority(priority),
+	return p.syslogWriter.Write(&SyslogPacket{
+		Severity: syslog.LOG_INFO,
 		Hostname: payload.GetHostname(),
 		Tag:      payload.GetTag(),
 		Time:     ts,
@@ -252,7 +250,11 @@ func (p *Logger) flushWorker(hose chan []byte, wg *sync.WaitGroup) {
 				err = errors.Wrap(err, "unmarshal error")
 				return err
 			}
-			p.sendLogs(payload)
+			if err := p.sendLogs(payload); err != nil {
+				err = errors.Wrapf(err, "error sending log with key: %s, which will be reattempted later", key)
+				return err
+			}
+
 			logrus.Debugf("flushLogs, delete key: %s", key)
 			err = txn.Delete(key)
 			if err != nil {

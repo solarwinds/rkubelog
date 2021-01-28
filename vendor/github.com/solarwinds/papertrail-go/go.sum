@@ -4,6 +4,8 @@ github.com/DataDog/zstd v1.4.1 h1:3oxKN3wbHibqx897utPC2LTQU4J+IHWWJO+glkAkpFM=
 github.com/DataDog/zstd v1.4.1/go.mod h1:1jcaCB/ufaK+sKp1NBhlGmpz41jOoPQ35bpF36t7BBo=
 github.com/OneOfOne/xxhash v1.2.2 h1:KMrpdQIwFcEqXDklaen+P1axHaj9BSKzvpUUfnHldSE=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
+github.com/RackSec/srslog v0.0.0-20180709174129-a4725f04ec91 h1:vX+gnvBc56EbWYrmlhYbFYRaeikAke1GL84N4BEYOFE=
+github.com/RackSec/srslog v0.0.0-20180709174129-a4725f04ec91/go.mod h1:cDLGBht23g0XQdLjzn6xOGXDkLK182YfINAaZEQLCHQ=
 github.com/armon/consul-api v0.0.0-20180202201655-eb2c6b5be1b6/go.mod h1:grANhF5doyWs3UAsr3K4I6qtAmlQcZDesFNEHPZAzj8=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/cespare/xxhash v1.1.0 h1:a6HrQnmkObjyL+Gs60czilIUGqrzKutQD6XZog3p+ko=
@@ -71,8 +73,6 @@ github.com/mattn/go-isatty v0.0.3/go.mod h1:M+lRXTBqGeGNdLjl/ufCoiOlB5xdOkqRJdNx
 github.com/mitchellh/go-homedir v1.1.0/go.mod h1:SfyaCUpYCn1Vlf4IUYiD9fPX4A5wJrkLzIz1N1q0pr0=
 github.com/mitchellh/mapstructure v1.1.2/go.mod h1:FVVH3fgwuzCH5S8UJGiWEs2h04kUh9fWfEaFds41c1Y=
 github.com/mmcloughlin/avo v0.0.0-20201105074841-5d2f697d268f/go.mod h1:6aKT4zZIrpGqB3RpFU14ByCSSyKY6LfJz4J/JJChHfI=
-github.com/papertrail/remote_syslog2 v0.0.0-20190614180052-09062fc2b02a h1:miy26fWiC8h6gw9/rKuPFX+FlOwGsx7kOqWC7Vlhw34=
-github.com/papertrail/remote_syslog2 v0.0.0-20190614180052-09062fc2b02a/go.mod h1:bKQTGf39M2hRwOZCSh/I+LoV6PUW857XAAwzYQKqeBw=
 github.com/pelletier/go-toml v1.2.0/go.mod h1:5z9KED0ma1S8pY6P1sdut58dfprrGBbd/94hg7ilaic=
 github.com/peterh/liner v0.0.0-20170317030525-88609521dc4b/go.mod h1:xIteQHvHuaLYG9IFj6mSxM0fCKrs34IrEQUhOYuGPHc=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=

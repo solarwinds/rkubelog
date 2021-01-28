@@ -21,9 +21,10 @@ type PapertrailShipper struct {
 
 // CreatePapertrailShipper creates a PapertrailShipper with the given metadata
 func CreatePapertrailShipper(ctx context.Context, paperTrailProtocol, paperTrailHost string, paperTrailPort int,
-	dbLocation string, retention time.Duration,
+	staticTags, dbLocation string, retention time.Duration,
 	workerCount int, maxDiskUsage float64) (*PapertrailShipper, error) {
-	lg, err := papertrailgo.NewPapertrailLogger(ctx, paperTrailProtocol, paperTrailHost, paperTrailPort, dbLocation, retention, workerCount, maxDiskUsage)
+	lg, err := papertrailgo.NewPapertrailLogger(ctx, paperTrailProtocol, paperTrailHost, paperTrailPort, staticTags,
+		dbLocation, retention, workerCount, maxDiskUsage)
 	if err != nil {
 		err = errors.Wrap(err, "unable to create a papertrail logger")
 		logrus.Error(err)

@@ -115,6 +115,8 @@ func main() {
 
 	logglyToken := os.Getenv("LOGGLY_TOKEN")
 
+	customStaticTags := os.Getenv("TAGS")
+
 	var logShippers []logshipper.LogShipper
 	defer func() {
 		for _, l := range logShippers {
@@ -126,12 +128,12 @@ func main() {
 		}
 	}()
 	if strings.TrimSpace(logglyToken) != "" {
-		logShippers = append(logShippers, logshipper.CreateLogglyShipper(logglyToken))
+		logShippers = append(logShippers, logshipper.CreateLogglyShipper(logglyToken, customStaticTags))
 	}
 	if strings.TrimSpace(papertrailProtocol) != "" && strings.TrimSpace(papertrailHost) != "" && strings.TrimSpace(papertrailPort) != "" {
 		pPort, _ := strconv.Atoi(papertrailPort)
 		papertrailShipper, err := logshipper.CreatePapertrailShipper(context.Background(), papertrailProtocol,
-			papertrailHost, pPort, *flagPapertrailDBLocation, *flagPapertrailRetention, *flagPapertrailWorkerCount, *flagPapertrailMaxDiskUsage)
+			papertrailHost, pPort, customStaticTags, *flagPapertrailDBLocation, *flagPapertrailRetention, *flagPapertrailWorkerCount, *flagPapertrailMaxDiskUsage)
 		kingpin.FatalIfError(err, "unable to create a papertrail log shipper, please check the provided values")
 		logShippers = append(logShippers, papertrailShipper)
 	}

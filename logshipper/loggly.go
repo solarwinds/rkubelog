@@ -10,13 +10,15 @@ import (
 
 // LogglyShipper type represents a loggly log shipper
 type LogglyShipper struct {
-	logglyClient *loggly.Client
+	logglyClient     *loggly.Client
+	customStaticTags string
 }
 
 // CreateLogglyShipper creates a LogglyShipper with the given token
-func CreateLogglyShipper(token string) *LogglyShipper {
+func CreateLogglyShipper(token, customStaticTags string) *LogglyShipper {
 	return &LogglyShipper{
-		logglyClient: loggly.New(token, "rkubelog"),
+		logglyClient:     loggly.New(token, "rkubelog"),
+		customStaticTags: customStaticTags,
 	}
 }
 
@@ -25,6 +27,7 @@ func (l *LogglyShipper) Log(ev kail.Event) error {
 	if l.logglyClient != nil && ev != nil && len(ev.Log()) > 0 {
 		return l.logglyClient.Send(map[string]interface{}{
 			"rkubelog": map[string]interface{}{
+				"tag":       l.customStaticTags,
 				"message":   string(ev.Log()),
 				"node":      ev.Source().Node(),
 				"pod":       ev.Source().Name(),
