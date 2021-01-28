@@ -55,7 +55,7 @@ Also add these default values to disable Papertrail logging (following are just 
 For any help with Loggly, please checkout their help page [here](https://documentation.solarwinds.com/en/Success_Center/loggly/).
 
 
-__Please note:__ If you want to send logs to both Loggly and Papertrail, you can configure both Loggly and Papertrail related values above to valid ones. Most will only want to use one or the other.
+> __Please note:__ If you want to send logs to both Loggly and Papertrail, you can configure both Loggly and Papertrail related values above to valid ones. Most will only want to use one or the other.
 
 ## Development
 
