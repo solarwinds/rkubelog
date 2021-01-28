@@ -191,6 +191,8 @@ github.com/solarwinds/papertrail-go v0.0.0-20210127214725-d5684ff98257 h1:6N0Ps2
 github.com/solarwinds/papertrail-go v0.0.0-20210127214725-d5684ff98257/go.mod h1:ZFjjrAYC2P7mJjLKQntkbKRf+Zk6ntFZ1U/WyjlNCUQ=
 github.com/solarwinds/papertrail-go v0.0.0-20210128000726-4cac9ee6de0a h1:cdKp5bDLhzVliZJc0BedDToN58D7buqpyuNUolZW7bI=
 github.com/solarwinds/papertrail-go v0.0.0-20210128000726-4cac9ee6de0a/go.mod h1:ZFjjrAYC2P7mJjLKQntkbKRf+Zk6ntFZ1U/WyjlNCUQ=
+github.com/solarwinds/papertrail-go v0.0.0-20210128013555-edd1abecd697 h1:O+2NXY2OLPz7/o0/5WB/S3HEPXgAI10NCce2YcRtvDM=
+github.com/solarwinds/papertrail-go v0.0.0-20210128013555-edd1abecd697/go.mod h1:ZFjjrAYC2P7mJjLKQntkbKRf+Zk6ntFZ1U/WyjlNCUQ=
 github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72/go.mod h1:JwIasOWyU6f++ZhiEuf87xNszmSA2myDM2Kzu9HwQUA=
 github.com/spaolacci/murmur3 v1.1.0 h1:7c1g84S4BPRrfL5Xrdp6fOJ206sU9y293DDHaoy0bLI=
 github.com/spaolacci/murmur3 v1.1.0/go.mod h1:JwIasOWyU6f++ZhiEuf87xNszmSA2myDM2Kzu9HwQUA=

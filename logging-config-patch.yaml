@@ -25,4 +25,6 @@
         secretKeyRef:
           name: logging-secret
           key: LOGGLY_TOKEN
+    - name: TAGS
+      value: ""
 
