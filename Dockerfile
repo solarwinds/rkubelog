@@ -1,7 +1,7 @@
 # Copyright 2019 SolarWinds Worldwide, LLC.
 # SPDX-License-Identifier: Apache-2.0
 
-FROM golang:1.15.7-alpine as main
+FROM golang:1.15.8-alpine as main
 RUN apk update && apk add --no-cache git ca-certificates wget && update-ca-certificates
 RUN wget -O /etc/ssl/certs/papertrail-bundle.pem https://papertrailapp.com/tools/papertrail-bundle.pem
 WORKDIR /github.com/solarwinds/rkubelog
