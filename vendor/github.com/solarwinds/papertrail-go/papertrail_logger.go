@@ -23,16 +23,15 @@ import (
 	"os"
 	"runtime"
 	"strings"
-	"sync"
 	"syscall"
 	"time"
 
 	syslog "github.com/RackSec/srslog"
-	badger "github.com/dgraph-io/badger/v3"
 	"github.com/golang/protobuf/ptypes"
 	"github.com/pkg/errors"
 	uuid "github.com/satori/go.uuid"
 	"github.com/sirupsen/logrus"
+	bolt "go.etcd.io/bbolt"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -41,13 +40,14 @@ const (
 	defaultMaxDiskUsage         = 5    // disk usage in percentage
 	defaultUltimateMaxDiskUsage = 99   // usage cannot go beyond this percentage value
 	defaultBatchSize            = 1000 // records
-	defaultDBLocation           = "./badger"
-	cleanUpInterval             = 5 * time.Second
+	defaultDBLocation           = "./db"
+	cleanUpInterval             = 1 * time.Minute
 )
 
 var (
 	defaultWorkerCount = 10
 	defaultRetention   = 24 * time.Hour
+	defaultBucketName  = []byte("rKubeLog")
 )
 
 // LoggerInterface is the interface for all Papertrail logger types
@@ -60,7 +60,7 @@ type LoggerInterface interface {
 type Logger struct {
 	retentionPeriod time.Duration
 
-	db *badger.DB
+	db *bolt.DB
 
 	initialDiskUsage float64
 
@@ -73,6 +73,11 @@ type Logger struct {
 	loopWait chan struct{}
 
 	syslogWriter papertrailShipper
+}
+
+type kv struct {
+	k []byte
+	v []byte
 }
 
 // NewPapertrailLogger creates a papertrail log shipper and also returns an instance of Logger
@@ -98,20 +103,30 @@ func NewPapertrailLoggerWithShipper(ctx context.Context, dbLocation string, rete
 	}
 	l := logrus.New()
 	l.SetLevel(logrus.GetLevel())
-	opts := badger.DefaultOptions(dbLocation).WithLogger(l)
-	db, err := badger.Open(opts)
+	db, err := bolt.Open(dbLocation, 0666, &bolt.Options{Timeout: 30 * time.Second})
 	if err != nil {
 		err = errors.Wrap(err, "error while opening a local db instance")
 		logrus.Error(err)
 		// attempting to use a different location
 		dbLocation = fmt.Sprintf("%s_%s", dbLocation, uuid.NewV4().Bytes())
-		opts = badger.DefaultOptions(dbLocation).WithLogger(l)
-		db, err = badger.Open(opts)
+		db, err = bolt.Open(dbLocation, 0666, &bolt.Options{Timeout: 30 * time.Second})
 		if err != nil {
 			err = errors.Wrap(err, "error while opening a local db instance")
 			logrus.Error(err)
 			return nil, err
 		}
+	}
+
+	if err := db.Update(func(t *bolt.Tx) error {
+		_, err := t.CreateBucketIfNotExists(defaultBucketName)
+		if err != nil {
+			return err
+		}
+		return nil
+	}); err != nil {
+		err = errors.Wrap(err, "error creating a bucket")
+		logrus.Error(err)
+		return nil, err
 	}
 
 	if workerCount <= 0 {
@@ -142,7 +157,7 @@ func NewPapertrailLoggerWithShipper(ctx context.Context, dbLocation string, rete
 
 	go p.flushLogs()
 	go p.deleteExcess()
-	go p.cleanup()
+	// go p.cleanup()
 	return p, nil
 }
 
@@ -165,9 +180,20 @@ func (p *Logger) Log(payload *Payload) error {
 
 	if len(data) > 0 {
 		guuid := uuid.NewV4()
-		if err := p.db.Update(func(txn *badger.Txn) error {
-			logrus.Debug("log line received, marshalled and persisting to local db")
-			return txn.SetEntry(badger.NewEntry([]byte(fmt.Sprintf(keyFormat, time.Now().UnixNano(), guuid)), data).WithTTL(p.retentionPeriod))
+		// if err := p.db.Update(func(txn *badger.Txn) error {
+		// 	logrus.Debug("log line received, marshalled and persisting to local db")
+		// 	return txn.SetEntry(badger.NewEntry([]byte(fmt.Sprintf(keyFormat, time.Now().UnixNano(), guuid)), data).WithTTL(p.retentionPeriod))
+		// })
+		if err := p.db.Update(func(t *bolt.Tx) error {
+			var err error
+			b := t.Bucket(defaultBucketName)
+			if b == nil {
+				b, err = t.CreateBucketIfNotExists(defaultBucketName)
+				if err != nil {
+					return err
+				}
+			}
+			return b.Put([]byte(fmt.Sprintf(keyFormat, time.Now().UnixNano(), guuid)), data)
 		}); err != nil {
 			err = errors.Wrapf(err, "error persisting log to local db")
 			logrus.Error(err)
@@ -191,82 +217,88 @@ func (p *Logger) sendLogs(payload *Payload) error {
 
 // This should be run in a routine
 func (p *Logger) flushLogs() {
+	hose := make(chan *kv, p.maxWorkers)
+
 	defer func() {
+		close(hose)
 		p.loopWait <- struct{}{}
 	}()
+
+	// workers
+	for i := 0; i < p.maxWorkers; i++ {
+		go p.flushWorker(hose)
+	}
+
 	for p.loopFactor.getBool() {
-		hose := make(chan []byte, p.maxWorkers)
-		wg := new(sync.WaitGroup)
-
-		// workers
-		for i := 0; i < p.maxWorkers; i++ {
-			go p.flushWorker(hose, wg)
-		}
-
-		err := p.db.View(func(txn *badger.Txn) error {
-			opts := badger.DefaultIteratorOptions
-			opts.PrefetchValues = false
-			it := txn.NewIterator(opts)
-			defer it.Close()
-			for it.Rewind(); it.Valid(); it.Next() {
-				item := it.Item()
-				k := make([]byte, len(item.Key()))
-				copy(k, item.Key())
-				wg.Add(1)
-				hose <- k
+		if err := p.db.View(func(t *bolt.Tx) error {
+			var err error
+			b := t.Bucket(defaultBucketName)
+			if b == nil {
+				b, err = t.CreateBucketIfNotExists(defaultBucketName)
+				if err != nil {
+					return err
+				}
 			}
+
+			c := b.Cursor()
+			for k, v := c.First(); k != nil; k, v = c.Next() {
+				kk := make([]byte, len(k))
+				vv := make([]byte, len(v))
+				copy(kk, k)
+				copy(vv, v)
+				hose <- &kv{
+					k: kk,
+					v: vv,
+				}
+			}
+
 			return nil
-		})
-		if err != nil {
-			err = errors.Wrapf(err, "flush logs - Error reading keys from db")
+
+		}); err != nil {
+			err = errors.Wrapf(err, "flush logs - iterator error")
 			logrus.Warn(err)
 		}
-		wg.Wait()
-		close(hose)
 		time.Sleep(50 * time.Millisecond)
 	}
 }
 
-func (p *Logger) flushWorker(hose chan []byte, wg *sync.WaitGroup) {
-	for key := range hose {
-		err := p.db.Update(func(txn *badger.Txn) error {
-			item, err := txn.Get(key)
-			if err != nil {
-				if err == badger.ErrKeyNotFound {
-					return nil
-				}
-				return err
-			}
-			var val []byte
-			val, err = item.ValueCopy(val)
-			if err != nil {
-				if err == badger.ErrKeyNotFound {
-					return nil
-				}
-				return err
-			}
-			payload := &Payload{}
-			if err := proto.Unmarshal(val, payload); err != nil {
-				err = errors.Wrap(err, "unmarshal error")
-				return err
-			}
-			if err := p.sendLogs(payload); err != nil {
-				err = errors.Wrapf(err, "error sending log with key: %s, which will be reattempted later", key)
-				return err
-			}
+func (p *Logger) flushWorker(hose chan *kv) {
+	for kvp := range hose {
+		// val, err := p.db.Get(key)
+		// if err != nil {
+		// 	err = errors.Wrapf(err, "Error while getting key: %s", key)
+		// 	logrus.Warn(err)
+		// 	continue
+		// }
 
-			logrus.Debugf("flushLogs, delete key: %s", key)
-			err = txn.Delete(key)
-			if err != nil {
-				return err
-			}
-			return nil
-		})
-		if err != nil {
-			err = errors.Wrapf(err, "Error while deleting key: %s", key)
-			logrus.Warn(err)
+		payload := &Payload{}
+		if err := proto.Unmarshal(kvp.v, payload); err != nil {
+			err = errors.Wrap(err, "unmarshal error")
+			logrus.Error(err)
+			continue
 		}
-		wg.Done()
+		if err := p.sendLogs(payload); err != nil {
+			err = errors.Wrapf(err, "error sending log with key: %s, which will be reattempted later", kvp.k)
+			logrus.Error(err)
+			continue
+		}
+
+		logrus.Debugf("flushLogs, delete key: %s", kvp.k)
+
+		if err := p.db.Update(func(t *bolt.Tx) error {
+			var err error
+			b := t.Bucket(defaultBucketName)
+			if b == nil {
+				b, err = t.CreateBucketIfNotExists(defaultBucketName)
+				if err != nil {
+					return err
+				}
+			}
+			return b.Delete(kvp.k)
+		}); err != nil {
+			err = errors.Wrapf(err, "error deleting key: %s", kvp.k)
+			logrus.Error(err)
+		}
 	}
 }
 
@@ -280,25 +312,28 @@ func (p *Logger) deleteExcess() {
 		if currentUsage > p.initialDiskUsage+p.maxDiskUsage || currentUsage > defaultUltimateMaxDiskUsage {
 			// delete from beginning
 			iterations := defaultBatchSize
-			err := p.db.View(func(txn *badger.Txn) error {
-				opts := badger.DefaultIteratorOptions
-				opts.PrefetchValues = false
-				it := txn.NewIterator(opts)
-				defer it.Close()
-				for it.Rewind(); it.Valid(); it.Next() {
-					item := it.Item()
-					k := make([]byte, len(item.Key()))
-					copy(k, item.Key())
-					_ = txn.Delete(k)
+
+			if err := p.db.Batch(func(t *bolt.Tx) error {
+				b, err := t.CreateBucketIfNotExists(defaultBucketName)
+				if err != nil {
+					return err
+				}
+
+				c := b.Cursor()
+				for k, _ := c.First(); k != nil; k, _ = c.Next() {
+					if err := b.Delete(k); err != nil {
+						err = errors.Wrapf(err, "deleteExcess - Error while deleting")
+						logrus.Warn(err)
+					}
+
 					iterations--
 					if iterations < 0 {
 						break
 					}
 				}
 				return nil
-			})
-			if err != nil {
-				err = errors.Wrapf(err, "deleteExcess - Error while deleting")
+			}); err != nil {
+				err = errors.Wrapf(err, "deleteExcess - Batch Error while deleting")
 				logrus.Warn(err)
 			}
 		}
@@ -333,16 +368,16 @@ func (p *Logger) Close() error {
 	return nil
 }
 
-func (p *Logger) cleanup() {
-	for p.loopFactor.getBool() {
-		if p.db != nil {
-			logrus.Debug("cleanup - running GC")
-			//_ = p.db.PurgeOlderVersions()
-			_ = p.db.RunValueLogGC(0.99)
-		}
-		time.Sleep(cleanUpInterval)
-	}
-}
+// func (p *Logger) cleanup() {
+// 	for p.loopFactor.getBool() {
+// 		if p.db != nil {
+// 			logrus.Debug("cleanup - running GC")
+// 			//_ = p.db.PurgeOlderVersions()
+// 			_ = p.db.
+// 		}
+// 		time.Sleep(cleanUpInterval)
+// 	}
+// }
 
 func diskUsage() float64 {
 	var stat syscall.Statfs_t
