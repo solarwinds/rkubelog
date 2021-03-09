@@ -141,16 +141,8 @@ func (s *SrslogShipper) Write(packet *SyslogPacket) (err error) {
 		tag = fmt.Sprintf("%s/%s", s.tag, tag)
 	}
 
-	// switch s.protocol {
-	// case TCP, TLS:
-	// 	// msg = fmt.Sprintf("%s %s %s - %s", packet.Hostname, s.tag, packet.Tag, packet.Message)
 	msg = fmt.Sprintf("<%d>%d %s %s %s - - - %s",
 		packet.Severity, 1, timestamp, packet.Hostname, tag, packet.Message)
-	// default:
-	// 	// msg = fmt.Sprintf("%s %s - %s", packet.Hostname, packet.Tag, packet.Message)
-	// 	msg = fmt.Sprintf("<%d>%d %s %s %s - - - %s",
-	// 		packet.Severity, 1, timestamp, packet.Hostname, tag, packet.Message)
-	// }
 
 	_, err = s.writer.WriteWithPriority(packet.Severity, []byte(msg))
 	return err
@@ -177,9 +169,6 @@ func NewPapertailShipper(paperTrailProtocol, paperTrailHost string, paperTrailPo
 	paperTrailHost = strings.TrimSpace(paperTrailHost)
 	paperTrailProtocol = strings.TrimSpace(strings.ToLower(paperTrailProtocol))
 
-	// if !validateProtocol(paperTrailProtocol) {
-	// 	return nil, errors.New("given protocol is not valid, supported protocols are udp, tcp, tls (for tls over tcp)")
-	// }
 	selectedProtocol := validateProtocol(paperTrailProtocol)
 
 	if paperTrailHost == "" {
