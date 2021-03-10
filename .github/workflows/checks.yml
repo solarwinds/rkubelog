@@ -51,7 +51,9 @@ jobs:
         go-version: 1.16
     - run: make build
   docker-build:
+    name: docker build check
     runs-on: ubuntu-latest
+    # needs: [build]
     steps:
       - uses: actions/checkout@v2
       - name: Set up QEMU
@@ -66,4 +68,4 @@ jobs:
       - name: Docker build
         run: |
           DOCKER_BUILDKIT=1 docker build --no-cache -t ${{ env.IMAGE_NAME }}:latest .
-          docker manifest inspect ‐‐verbose ${{ env.IMAGE_NAME }}:latest
+          docker inspect ${{ env.IMAGE_NAME }}:latest
