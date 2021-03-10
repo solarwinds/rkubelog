@@ -140,6 +140,8 @@ github.com/segmentio/go-loggly v0.5.0/go.mod h1:8zLRYR5npGjaOXgPSKat5+oOh+UHd8Od
 github.com/sirupsen/logrus v1.4.1/go.mod h1:ni0Sbl8bgC9z8RoU9G6nDWqqs/fq4eDPysMBDgk/93Q=
 github.com/sirupsen/logrus v1.7.0 h1:ShrD1U9pZB12TX0cVy0DtePoCH97K8EtX+mg7ZARUtM=
 github.com/sirupsen/logrus v1.7.0/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=
+github.com/sirupsen/logrus v1.8.1 h1:dJKuHgqk1NNQlqoA6BTlM1Wf9DOH3NBjQyu0h9+AZZE=
+github.com/sirupsen/logrus v1.8.1/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=
 github.com/solarwinds/papertrail-go v0.0.0-20210309063915-0dce0e9dca34 h1:KASG4nsonTSWXmUSqy2gpNZBXbPbjktogBiZr4JcWpY=
 github.com/solarwinds/papertrail-go v0.0.0-20210309063915-0dce0e9dca34/go.mod h1:1+YX6B59vKCnkJezXZQ+/lUnwYbdv5oqe57xzt5UHXQ=
 github.com/spf13/afero v1.2.2/go.mod h1:9ZxEEn6pIJ8Rxe320qSDBk6AsU0r9pR7Q4OcevTdifk=
