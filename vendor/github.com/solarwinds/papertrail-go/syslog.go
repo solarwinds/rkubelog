@@ -91,7 +91,14 @@ func (s *SrslogShipper) Dial() (err error) {
 		s.writer, err = syslog.DialWithTLSConfig(string(s.protocol), s.hostport, syslog.LOG_NOTICE, s.tag, s.tlsConfig)
 	}
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	s.writer.SetFormatter(s.Formatter)
+	s.writer.SetFramer(syslog.DefaultFramer)
+
+	return nil
 }
 
 // Write writes packets on the wire
@@ -103,7 +110,8 @@ func (s *SrslogShipper) Write(packet *SyslogPacket) (err error) {
 	}
 
 	// s.writer.SetHostname(packet.Hostname)
-	s.writer.SetFormatter(s.Formatter)
+	// s.writer.SetFormatter(s.Formatter)
+	// s.writer.SetFormatter(syslog.RFC5424Formatter)
 
 	switch {
 	case s.protocol == UDP:
@@ -123,15 +131,18 @@ func (s *SrslogShipper) Write(packet *SyslogPacket) (err error) {
 		ts = time.Now()
 	}
 
+	timestamp := ts.Format(time.RFC3339)
+
 	// msg := fmt.Sprintf("<%d> %s %s %s %s - - - %s", packet.Severity, ts.Format(rfc5424time), packet.Hostname, s.tag, packet.Tag, packet.Message)
 	var msg string
 
-	switch s.protocol {
-	case TCP, TLS:
-		msg = fmt.Sprintf("%s %s %s - %s", packet.Hostname, s.tag, packet.Tag, packet.Message)
-	default:
-		msg = fmt.Sprintf("%s %s - %s", packet.Hostname, packet.Tag, packet.Message)
+	tag := packet.Tag
+	if s.tag != "" {
+		tag = fmt.Sprintf("%s/%s", s.tag, tag)
 	}
+
+	msg = fmt.Sprintf("<%d>%d %s %s %s - - - %s",
+		packet.Severity, 1, timestamp, packet.Hostname, tag, packet.Message)
 
 	_, err = s.writer.WriteWithPriority(packet.Severity, []byte(msg))
 	return err
@@ -158,9 +169,6 @@ func NewPapertailShipper(paperTrailProtocol, paperTrailHost string, paperTrailPo
 	paperTrailHost = strings.TrimSpace(paperTrailHost)
 	paperTrailProtocol = strings.TrimSpace(strings.ToLower(paperTrailProtocol))
 
-	// if !validateProtocol(paperTrailProtocol) {
-	// 	return nil, errors.New("given protocol is not valid, supported protocols are udp, tcp, tls (for tls over tcp)")
-	// }
 	selectedProtocol := validateProtocol(paperTrailProtocol)
 
 	if paperTrailHost == "" {

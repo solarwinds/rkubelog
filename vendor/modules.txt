@@ -7,8 +7,6 @@ github.com/Azure/go-autorest/autorest/azure
 github.com/Azure/go-autorest/autorest/date
 github.com/Azure/go-autorest/logger
 github.com/Azure/go-autorest/version
-# github.com/DataDog/zstd v1.4.1
-github.com/DataDog/zstd
 # github.com/RackSec/srslog v0.0.0-20180709174129-a4725f04ec91
 github.com/RackSec/srslog
 # github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
@@ -82,47 +80,24 @@ github.com/boz/kcache/types/replicationcontroller
 github.com/boz/kcache/types/service
 # github.com/campoy/unique v0.0.0-20180121183637-88950e537e7e
 github.com/campoy/unique
-# github.com/cespare/xxhash v1.1.0
-github.com/cespare/xxhash
 # github.com/client9/codegen v0.0.0-20180316044450-92480ce66a06
 github.com/client9/codegen
 github.com/client9/codegen/shell
 # github.com/davecgh/go-spew v1.1.1
 github.com/davecgh/go-spew/spew
-# github.com/dgraph-io/badger/v3 v3.2011.0
-github.com/dgraph-io/badger/v3
-github.com/dgraph-io/badger/v3/fb
-github.com/dgraph-io/badger/v3/options
-github.com/dgraph-io/badger/v3/pb
-github.com/dgraph-io/badger/v3/skl
-github.com/dgraph-io/badger/v3/table
-github.com/dgraph-io/badger/v3/trie
-github.com/dgraph-io/badger/v3/y
-# github.com/dgraph-io/ristretto v0.0.4-0.20201205013540-bafef7527542
-github.com/dgraph-io/ristretto
-github.com/dgraph-io/ristretto/z
-github.com/dgraph-io/ristretto/z/simd
 # github.com/dgrijalva/jwt-go v0.0.0-20170608005149-a539ee1a749a
 github.com/dgrijalva/jwt-go
-# github.com/dustin/go-humanize v1.0.0
-github.com/dustin/go-humanize
 # github.com/fatih/color v1.7.0
 github.com/fatih/color
 # github.com/gogo/protobuf v0.0.0-20171007142547-342cbe0a0415
 github.com/gogo/protobuf/proto
 github.com/gogo/protobuf/sortkeys
-# github.com/golang/groupcache v0.0.0-20190702054246-869f871628b6
-github.com/golang/groupcache/lru
 # github.com/golang/protobuf v1.4.3
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
-# github.com/golang/snappy v0.0.1
-github.com/golang/snappy
-# github.com/google/flatbuffers v1.12.0
-github.com/google/flatbuffers/go
 # github.com/google/go-github/v25 v25.0.1
 github.com/google/go-github/v25/github
 # github.com/google/go-querystring v1.0.0
@@ -203,6 +178,7 @@ github.com/mattn/go-isatty
 github.com/mattn/go-zglob
 github.com/mattn/go-zglob/fastwalk
 # github.com/mitchellh/go-homedir v1.1.0
+## explicit
 github.com/mitchellh/go-homedir
 # github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
 github.com/modern-go/concurrent
@@ -219,30 +195,24 @@ github.com/segmentio/go-loggly
 # github.com/sirupsen/logrus v1.7.0
 ## explicit
 github.com/sirupsen/logrus
-# github.com/solarwinds/papertrail-go v0.0.0-20210128013555-edd1abecd697
+# github.com/solarwinds/papertrail-go v0.0.0-20210309063915-0dce0e9dca34
 ## explicit
 github.com/solarwinds/papertrail-go
 # github.com/spf13/pflag v1.0.3
-github.com/spf13/pflag
-# github.com/stretchr/testify v1.5.1
 ## explicit
-# go.opencensus.io v0.22.5
-go.opencensus.io
-go.opencensus.io/internal
-go.opencensus.io/trace
-go.opencensus.io/trace/internal
-go.opencensus.io/trace/tracestate
+github.com/spf13/pflag
+# go.etcd.io/bbolt v1.3.5
+go.etcd.io/bbolt
 # golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
 golang.org/x/crypto/ssh/terminal
 # golang.org/x/net v0.0.0-20201021035429-f5854403a974
+## explicit
 golang.org/x/net/context
 golang.org/x/net/context/ctxhttp
 golang.org/x/net/http/httpguts
 golang.org/x/net/http2
 golang.org/x/net/http2/hpack
 golang.org/x/net/idna
-golang.org/x/net/internal/timeseries
-golang.org/x/net/trace
 # golang.org/x/oauth2 v0.0.0-20190402181905-9f3314589c9a
 golang.org/x/oauth2
 golang.org/x/oauth2/google
@@ -250,6 +220,7 @@ golang.org/x/oauth2/internal
 golang.org/x/oauth2/jws
 golang.org/x/oauth2/jwt
 # golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
+## explicit
 golang.org/x/sync/errgroup
 # golang.org/x/sys v0.0.0-20200930185726-fdedc70b468f
 golang.org/x/sys/internal/unsafeheader
@@ -308,7 +279,8 @@ google.golang.org/protobuf/types/known/timestamppb
 gopkg.in/alecthomas/kingpin.v2
 # gopkg.in/inf.v0 v0.9.0
 gopkg.in/inf.v0
-# gopkg.in/yaml.v2 v2.2.2
+# gopkg.in/yaml.v2 v2.3.0
+## explicit
 gopkg.in/yaml.v2
 # k8s.io/api v0.0.0-20190515023547-db5a9d1c40eb
 k8s.io/api/admissionregistration/v1beta1
