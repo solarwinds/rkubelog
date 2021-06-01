@@ -195,7 +195,7 @@ github.com/segmentio/go-loggly
 # github.com/sirupsen/logrus v1.8.1
 ## explicit
 github.com/sirupsen/logrus
-# github.com/solarwinds/papertrail-go v0.0.0-20210309063915-0dce0e9dca34
+# github.com/solarwinds/papertrail-go v0.0.0-20210601025410-ab261ef9e67e
 ## explicit
 github.com/solarwinds/papertrail-go
 # github.com/spf13/pflag v1.0.3

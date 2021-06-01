@@ -11,7 +11,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/segmentio/go-loggly v0.5.0
 	github.com/sirupsen/logrus v1.8.1
-	github.com/solarwinds/papertrail-go v0.0.0-20210309063915-0dce0e9dca34
+	github.com/solarwinds/papertrail-go v0.0.0-20210601025410-ab261ef9e67e
 	github.com/spf13/pflag v1.0.3 // indirect
 	golang.org/x/net v0.0.0-20201021035429-f5854403a974 // indirect
 	golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9 // indirect
