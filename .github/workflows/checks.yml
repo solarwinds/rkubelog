@@ -21,7 +21,7 @@ on:
       - 'rkubelog/**'
 
 env:
-  IMAGE_NAME: "quay.io/solarwinds/rkubelog"
+  IMAGE_NAME: "ghcr.io/solarwinds/rkubelog"
 
 jobs:
   checks:
