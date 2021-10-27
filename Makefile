@@ -14,4 +14,4 @@ build:
 	go build -mod vendor -o bin/rkubelog
 
 docker:
-	DOCKER_BUILDKIT=1 docker build -t quay.io/solarwinds/rkubelog .
+	DOCKER_BUILDKIT=1 docker build -t ghcr.io/solarwinds/rkubelog .
