@@ -7,7 +7,7 @@ WORKDIR /github.com/solarwinds/rkubelog
 ADD . .
 RUN CGO_ENABLED=0 go build -mod vendor -ldflags='-w -s -extldflags "-static"' -a -o /rkubelog .
 
-FROM alpine:3.13.5
+FROM alpine:3.14.3
 COPY --from=main /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=main /etc/ssl/certs/papertrail-bundle.pem /etc/ssl/certs/
 COPY --from=main /rkubelog /app/rkubelog
