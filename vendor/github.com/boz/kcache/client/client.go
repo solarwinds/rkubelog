@@ -68,11 +68,10 @@ func makeResourceListFn(
 	c restRequester, res string, ns string) ListFn {
 	return func(ctx context.Context, opts metav1.ListOptions) (runtime.Object, error) {
 		result := c.Get().
-			Context(ctx).
 			Namespace(ns).
 			Resource(res).
 			VersionedParams(&opts, scheme.ParameterCodec).
-			Do()
+			Do(ctx)
 		err := result.Error()
 		if err != nil {
 			return nil, fmt.Errorf("listing %s in %s: %w", res, ns, err)
@@ -86,11 +85,10 @@ func makeResourceWatchFn(
 
 	return func(ctx context.Context, opts metav1.ListOptions) (watch.Interface, error) {
 		return c.Get().
-			Context(ctx).
 			Prefix("watch").
 			Namespace(ns).
 			Resource(res).
 			VersionedParams(&opts, scheme.ParameterCodec).
-			Watch()
+			Watch(ctx)
 	}
 }

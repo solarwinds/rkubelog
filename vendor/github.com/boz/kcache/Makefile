@@ -31,6 +31,7 @@ generate-types:
 	genny -in=types/gen/template.go -out=types/deployment/generated.go -pkg=deployment gen 'ObjectType=*appsv1.Deployment'
 	genny -in=types/gen/template.go -out=types/job/generated.go -pkg=job gen 'ObjectType=*batchv1.Job'
 	genny -in=types/gen/template.go -out=types/daemonset/generated.go -pkg=daemonset gen 'ObjectType=*appsv1.DaemonSet'
+	genny -in=types/gen/template.go -out=types/statefulset/generated.go -pkg=statefulset gen 'ObjectType=*appsv1.StatefulSet'
 	goimports -w types/**/generated.go
 	$(GO) build ./types/...
 
@@ -47,6 +48,7 @@ generate-type-tests:
 	./types/gen/gen appsv1.Deployment > types/deployment/generated_test.go
 	./types/gen/gen batchv1.Job > types/job/generated_test.go
 	./types/gen/gen appsv1.DaemonSet > types/daemonset/generated_test.go
+	./types/gen/gen appsv1.StatefulSet > types/statefulset/generated_test.go
 	$(GO) test ./types/...
 
 generate-joins:
@@ -58,6 +60,7 @@ generate-joins:
 	./join/gen/gen Job job '*batchv1.Job' Pod pod > ./join/generated_job_pod.go
 	./join/gen/gen DaemonSet daemonset '*appsv1.DaemonSet' Pod pod > ./join/generated_daemonset_pod.go
 	./join/gen/gen Ingress ingress '*networkingv1beta1.Ingress' Service service > ./join/generated_ingress_service.go
+	./join/gen/gen StatefulSet statefulset '*appsv1.StatefulSet' Pod pod > ./join/generated_statefulset_pod.go
 	$(GO) build ./join
 
 example:
