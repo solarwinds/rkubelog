@@ -20,3 +20,4 @@ var _ networkingv1beta1.Ingress
 var _ appsv1.ReplicaSet
 var _ appsv1.DaemonSet
 var _ batchv1.Job
+var _ appsv1.StatefulSet
