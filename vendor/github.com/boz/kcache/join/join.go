@@ -2,6 +2,7 @@ package join
 
 import (
 	"context"
+
 	"github.com/boz/kcache/types/daemonset"
 	"github.com/boz/kcache/types/deployment"
 	"github.com/boz/kcache/types/ingress"
@@ -10,6 +11,7 @@ import (
 	"github.com/boz/kcache/types/replicaset"
 	"github.com/boz/kcache/types/replicationcontroller"
 	"github.com/boz/kcache/types/service"
+	"github.com/boz/kcache/types/statefulset"
 )
 
 func ServicePods(ctx context.Context,
@@ -30,6 +32,11 @@ func RSPods(ctx context.Context,
 func DeploymentPods(ctx context.Context,
 	src deployment.Controller, dst pod.Publisher) (pod.Controller, error) {
 	return DeploymentPodsWith(ctx, src, dst, deployment.PodsFilter)
+}
+
+func StatefulSetPods(ctx context.Context,
+	src statefulset.Controller, dst pod.Publisher) (pod.Controller, error) {
+	return StatefulSetPodsWith(ctx, src, dst, statefulset.PodsFilter)
 }
 
 func JobPods(ctx context.Context,

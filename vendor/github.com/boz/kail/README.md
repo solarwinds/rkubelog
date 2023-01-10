@@ -21,6 +21,7 @@ Flag | Selection
 `--rc NAME` | match pods belonging to the given replication controller
 `--rs NAME` | match pods belonging to the given replica set
 `-d, --deploy NAME` | match pods belonging to the given deployment
+`--sts NAME` | match pods belonging to the given statefulset
 `-j, --job NAME` | match pods belonging to the given job
 `--node NODE-NAME` | match pods running on the given node
 `--ing NAME` | match pods belonging to services targeted by the given ingress
@@ -69,6 +70,7 @@ Flag | Description
 `--log-level LEVEL` | Set the logging level (default: `error`)
 `--log-file PATH` | Write output to `PATH` (default: `/dev/stderr`)
 `--since DURATION` | Display logs as old as given duration. Ex: `5s`, `2m`, `1.5h` or `2h45m` (defaults: `1s`)
+`-o, --output` | You can choose to display logs in default, raw (without prefix), json, pretty json and zerolog formats.
 See [here](https://golang.org/pkg/time/#ParseDuration) for more information on the duration format.
 
 ## Installing
@@ -80,13 +82,16 @@ $ brew tap boz/repo
 $ brew install boz/repo/kail
 ```
 
+### Krew
+
+```sh
+$ kubectl krew install tail
+$ kubectl tail -h
+```
+
 ### Downloading
 
 Kail binaries for Linux and OSX can be found on the [latest release](https://github.com/boz/kail/releases/latest) page.  Download and install into your `$GOPATH/bin` with:
-
-```sh
-$ bash <( curl -sfL https://raw.githubusercontent.com/boz/kail/master/godownloader.sh) -b "$GOPATH/bin"
-```
 
 ### Running in a cluster with `kubectl`
 
