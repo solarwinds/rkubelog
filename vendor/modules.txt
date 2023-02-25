@@ -319,7 +319,7 @@ k8s.io/api/settings/v1alpha1
 k8s.io/api/storage/v1
 k8s.io/api/storage/v1alpha1
 k8s.io/api/storage/v1beta1
-# k8s.io/apimachinery v0.0.0-20190515023456-b74e4c97951f
+# k8s.io/apimachinery v0.15.7
 ## explicit
 k8s.io/apimachinery/pkg/api/errors
 k8s.io/apimachinery/pkg/api/meta
@@ -423,7 +423,7 @@ k8s.io/client-go/util/flowcontrol
 k8s.io/client-go/util/homedir
 k8s.io/client-go/util/jsonpath
 k8s.io/client-go/util/keyutil
-# k8s.io/klog v0.3.0
+# k8s.io/klog v0.3.1
 k8s.io/klog
 # k8s.io/utils v0.0.0-20190506122338-8fab8cb257d5
 k8s.io/utils/integer
