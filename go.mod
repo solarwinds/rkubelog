@@ -13,8 +13,7 @@ require (
 	github.com/sirupsen/logrus v1.8.1
 	github.com/solarwinds/papertrail-go v0.0.0-20210601025410-ab261ef9e67e
 	github.com/spf13/pflag v1.0.3 // indirect
-	golang.org/x/net v0.0.0-20201021035429-f5854403a974 // indirect
-	golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9 // indirect
+	golang.org/x/net v0.7.0 // indirect
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 	k8s.io/apimachinery v0.0.0-20190515023456-b74e4c97951f
