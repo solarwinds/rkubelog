@@ -192,7 +192,7 @@ github.com/satori/go.uuid
 # github.com/segmentio/go-loggly v0.5.0
 ## explicit
 github.com/segmentio/go-loggly
-# github.com/sirupsen/logrus v1.8.1
+# github.com/sirupsen/logrus v1.9.2
 ## explicit
 github.com/sirupsen/logrus
 # github.com/solarwinds/papertrail-go v0.0.0-20210601025410-ab261ef9e67e
@@ -222,7 +222,7 @@ golang.org/x/oauth2/jwt
 # golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
 ## explicit
 golang.org/x/sync/errgroup
-# golang.org/x/sys v0.0.0-20200930185726-fdedc70b468f
+# golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
 golang.org/x/sys/windows
